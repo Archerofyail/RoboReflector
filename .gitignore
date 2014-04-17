@@ -11,3 +11,8 @@
 /*.userprefs
 /*.pidb
 /*.booproj
+*.csproj
+RoboReflector/Build/
+*.sln
+*.suo
+Thumbs.db
