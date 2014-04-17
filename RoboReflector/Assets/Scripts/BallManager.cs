@@ -10,7 +10,7 @@ public class BallManager : MonoBehaviour
 
 
 	private bool isTouching;
-	private bool isLaunching;
+	private bool isLaunching = true;
 	#endregion
 
 
@@ -21,15 +21,12 @@ public class BallManager : MonoBehaviour
 	public Ball ball;
 	public Transform ballStartPos;
 	public int initialBallCount;
-	private static int ballCount;
-	public static int BallCount
-	{
-		get { return ballCount; }
-		set { ballCount = Mathf.Clamp(value, 0, ballCount + 1); }
-	}
+	public static int ballCount;
 	public delegate void OnBallResetEvent(int count);
 
 	public static event OnBallResetEvent OnBallResetEventHandler;
+
+	public static event OnBallResetEvent OnBallCountUpdatedEventHandler;
 
 	public void SubscribeToEvents()
 	{
@@ -47,22 +44,30 @@ public class BallManager : MonoBehaviour
 
 	void Start()
 	{
-		BallCount = initialBallCount;
+		ballCount = initialBallCount;
 		Input.multiTouchEnabled = false;
 		ball.transform.position = ballStartPos.position;
 		StartGame.GameStartEventHandler += GameStart;
+		if (OnBallResetEventHandler != null)
+		{
+			OnBallResetEventHandler(ballCount);
+		}
+	}
+
+	public static void IncreaseBallCount()
+	{
+		ballCount++;
+		if (OnBallCountUpdatedEventHandler != null)
+		{
+			OnBallCountUpdatedEventHandler(ballCount);
+		}
 	}
 
 	void GameStart()
 	{
 		SubscribeToEvents();
-		StartCoroutine(UpdateGame());
+		
 		StartGame.GameStartEventHandler -= GameStart;
-	}
-
-	void OnDestroy()
-	{
-		DebugLog.LogMessage("Unsubscribed from events");
 	}
 
 	IEnumerator UpdateGame()
@@ -84,6 +89,7 @@ public class BallManager : MonoBehaviour
 
 	void OnTouchDown(Vector2 pos)
 	{
+		DebugLog.LogMessage("Touched down");
 		if (isLaunching)
 		{
 			if (ball.touchTrigger.OverlapPoint(pos))
@@ -134,6 +140,7 @@ public class BallManager : MonoBehaviour
 				flickStartPos = Vector2.zero;
 				isLaunching = false;
 				isTouching = false;
+				StartCoroutine("UpdateGame");
 			}
 
 		}
@@ -141,15 +148,21 @@ public class BallManager : MonoBehaviour
 
 	void ResetBall()
 	{
-		BallCount--;
+		ballCount--;
 		ball.transform.position = ballStartPos.position;
 		ball.rigidbody2D.velocity = Vector2.zero;
 		ballNotMovedTime = 0f;
 		isLaunching = true;
+		if (OnBallCountUpdatedEventHandler != null)
+		{
+			OnBallCountUpdatedEventHandler(ballCount);
+		}
 		if (OnBallResetEventHandler != null)
 		{
-			OnBallResetEventHandler(BallCount);
+			OnBallResetEventHandler(ballCount);
 		}
+		DebugLog.LogMessage("Reset ball");
+		StopCoroutine("UpdateGame");
 	}
 }
 

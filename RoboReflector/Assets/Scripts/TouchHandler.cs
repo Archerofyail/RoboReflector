@@ -24,6 +24,10 @@ public class TouchHandler : MonoBehaviour
 
 	void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();	
+		}
 		if (Input.touches.Length > 0)
 		{
 			currentTouch = Input.GetTouch(0);
@@ -32,7 +36,7 @@ public class TouchHandler : MonoBehaviour
 				Instantiate(touchEventIcon,
 					new Vector2(Camera.main.ScreenToWorldPoint(currentTouch.position).x,
 						Camera.main.ScreenToWorldPoint(currentTouch.position).y), Quaternion.identity);
-				DebugLog.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
+				//DebugLog.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
 
 			}
 			switch (currentTouch.phase)

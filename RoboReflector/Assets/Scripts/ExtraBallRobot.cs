@@ -1,10 +1,14 @@
-﻿public class ExtraBallRobot : Robot 
-{
+﻿using UnityEngine;
 
-	protected override void HitByBall()
+public class ExtraBallRobot : Robot
+{
+	public GameObject plusOneSprite;
+
+	protected override void OnDeath()
 	{
-		BallManager.BallCount++;
-		base.HitByBall();
+		DebugLog.LogMessage("Instantiated plus one sprite");
+		BallManager.IncreaseBallCount();
+		Instantiate(plusOneSprite, transform.position - Vector3.forward, Quaternion.identity);
 	}
 }
 

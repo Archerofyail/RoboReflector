@@ -3,12 +3,7 @@ using UnityEngine;
 
 public class DebugLog : MonoBehaviour
 {
-	private static Queue<string> messageQueue;
-	void Start()
-	{
-		messageQueue = new Queue<string>();
-	}
-
+	private static Queue<string> messageQueue = new Queue<string>();
 	void OnGUI()
 	{
 		foreach (var message in messageQueue)

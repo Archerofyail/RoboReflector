@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEngine;
 
 public class BallCountUpdater : MonoBehaviour
 {
@@ -7,12 +8,14 @@ public class BallCountUpdater : MonoBehaviour
 	void Start ()
 	{
 		label = GetComponent<UILabel>();
-		BallManager.OnBallResetEventHandler += UpdateBallCount;
+		BallManager.OnBallCountUpdatedEventHandler += UpdateBallCount;
 	}
 
 	void UpdateBallCount(int newCount)
 	{
-		label.text = "Balls:" + newCount;
+		DebugLog.LogMessage("Update ballcount UI, is now " + newCount);
+
+		label.text = newCount.ToString(CultureInfo.InvariantCulture);
 	}
 }
 
