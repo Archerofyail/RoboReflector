@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
 	private List<Robot> robots;
-	public Robot roboPrefab;
+	public Robot[] roboPrefabs;
+	public GameObject explosion;
 	public int minEnemiesPerRound;
 	public int maxEnemiesPerRound;
 
@@ -12,20 +15,30 @@ public class EnemyManager : MonoBehaviour
 	{
 		robots = new List<Robot>();
 		StartGame.GameStartEventHandler += SpawnRound;
+		StartCoroutine(CheckForRobots());
 	}
 
-	void Update()
+	IEnumerator CheckForRobots()
 	{
-
+		while (true)
+		{
+			if (robots.All(robot => robot == null))
+			{
+				SpawnRound();
+			}
+			yield return new WaitForSeconds(0.1f);
+		}
 	}
 
 	void SpawnRound()
 	{
 		var enemiesToSpawn = Random.Range(minEnemiesPerRound, maxEnemiesPerRound);
-		for (int i = 0; i < enemiesToSpawn; i++)
+		for (int i = 0; i <= enemiesToSpawn; i++)
 		{
 			robots.Add((Robot)
-				Instantiate(roboPrefab, ((Vector2) transform.position) + Random.insideUnitCircle * 4, Quaternion.identity));
+				Instantiate(roboPrefabs[Random.Range(0, roboPrefabs.Length)],
+					((Vector2) transform.position) + Random.insideUnitCircle * 4, Quaternion.identity));
+			robots[i].explosion = explosion;
 		}
 		StartGame.GameStartEventHandler -= SpawnRound;
 

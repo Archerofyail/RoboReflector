@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class Destroyer : MonoBehaviour 
+public class Destroyer : MonoBehaviour
 {
-
+	public float destructionTime = 3;
 	void Start () 
 	{
-		Destroy(gameObject, 3f);
+		Destroy(gameObject, destructionTime);
 	}
 
 }

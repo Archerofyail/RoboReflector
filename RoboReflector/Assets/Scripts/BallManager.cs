@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
-	public int score;
 
 	#region Flick Stuff
 	private Vector2 flickStartPos;
@@ -22,8 +20,16 @@ public class BallManager : MonoBehaviour
 	
 	public Ball ball;
 	public Transform ballStartPos;
+	public int initialBallCount;
+	private static int ballCount;
+	public static int BallCount
+	{
+		get { return ballCount; }
+		set { ballCount = Mathf.Clamp(value, 0, ballCount + 1); }
+	}
+	public delegate void OnBallResetEvent(int count);
 
-	public int ballCount = 3;
+	public static event OnBallResetEvent OnBallResetEventHandler;
 
 	public void SubscribeToEvents()
 	{
@@ -41,10 +47,10 @@ public class BallManager : MonoBehaviour
 
 	void Start()
 	{
+		BallCount = initialBallCount;
 		Input.multiTouchEnabled = false;
 		ball.transform.position = ballStartPos.position;
 		StartGame.GameStartEventHandler += GameStart;
-
 	}
 
 	void GameStart()
@@ -80,7 +86,7 @@ public class BallManager : MonoBehaviour
 	{
 		if (isLaunching)
 		{
-			if (ball.collider2D.OverlapPoint(pos))
+			if (ball.touchTrigger.OverlapPoint(pos))
 			{
 				DebugLog.LogMessage("Touched Ball");
 				
@@ -135,11 +141,15 @@ public class BallManager : MonoBehaviour
 
 	void ResetBall()
 	{
-		ballCount--;
+		BallCount--;
 		ball.transform.position = ballStartPos.position;
 		ball.rigidbody2D.velocity = Vector2.zero;
 		ballNotMovedTime = 0f;
 		isLaunching = true;
+		if (OnBallResetEventHandler != null)
+		{
+			OnBallResetEventHandler(BallCount);
+		}
 	}
 }
 

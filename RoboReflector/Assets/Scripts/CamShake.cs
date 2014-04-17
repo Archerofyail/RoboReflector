@@ -46,7 +46,6 @@ public class CamShake : MonoBehaviour
 			}
 			yield return null;
 		}
-		transform.position = normalPos.position;
 	}
 }
 

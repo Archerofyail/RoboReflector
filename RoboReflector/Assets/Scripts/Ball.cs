@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class Ball : MonoBehaviour 
+public class Ball : MonoBehaviour
 {
-
-	void Start () 
+	public Collider2D touchTrigger { get; private set; }
+	void Start ()
 	{
-	
+		touchTrigger = GetComponentInChildren<Collider2D>();
 	}
 	
 	void Update () 

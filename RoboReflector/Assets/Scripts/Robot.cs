@@ -7,6 +7,8 @@ public class Robot : MonoBehaviour
 
 	private int hitsToTake;
 	private SpriteRenderer spriteRenderer;
+	public GameObject explosion;
+
 	void Start()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -14,23 +16,32 @@ public class Robot : MonoBehaviour
 		SetSpriteColor();
 	}
 
-	void Update()
-	{
-
-	}
-
 	void OnCollisionEnter2D(Collision2D other)
 	{
 		if (other.transform.tag == "Ball")
 		{
-			hitsToTake--;
-			SetSpriteColor();
-			if (hitsToTake <= 0)
-			{
-				Destroy(gameObject, 0.1f);
-			}
-			CamShake.intensity += 0.2f;
+			HitByBall();
 		}
+	}
+
+	protected virtual void HitByBall()
+	{
+		hitsToTake--;
+
+		if (hitsToTake <= 0)
+		{
+			if (!explosion)
+			{
+				explosion = (GameObject)Resources.Load("Explosion");
+			}
+			Instantiate(explosion, transform.position, Quaternion.identity);
+			Destroy(gameObject, 0.01f);
+		}
+		else
+		{
+			SetSpriteColor();
+		}
+		CamShake.intensity += 0.2f;
 	}
 
 	void SetSpriteColor()
