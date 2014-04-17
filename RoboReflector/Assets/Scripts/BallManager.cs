@@ -17,7 +17,7 @@ public class BallManager : MonoBehaviour
 
 	private float ballNotMovedTime;
 	private float ballResetAfterStopTime = 1.5f;
-	
+
 	public Ball ball;
 	public Transform ballStartPos;
 	public int initialBallCount;
@@ -66,7 +66,7 @@ public class BallManager : MonoBehaviour
 	void GameStart()
 	{
 		SubscribeToEvents();
-		
+
 		StartGame.GameStartEventHandler -= GameStart;
 	}
 
@@ -89,13 +89,10 @@ public class BallManager : MonoBehaviour
 
 	void OnTouchDown(Vector2 pos)
 	{
-		DebugLog.LogMessage("Touched down");
 		if (isLaunching)
 		{
 			if (ball.touchTrigger.OverlapPoint(pos))
 			{
-				DebugLog.LogMessage("Touched Ball");
-				
 				flickStartPos = pos;
 				isTouching = true;
 			}
@@ -123,8 +120,7 @@ public class BallManager : MonoBehaviour
 				{
 					flickStartPos = pos;
 				}
-
-					flickLastPos = pos;
+				flickLastPos = pos;
 				ball.transform.position = pos;
 			}
 		}
@@ -135,7 +131,6 @@ public class BallManager : MonoBehaviour
 		{
 			if (isTouching)
 			{
-				DebugLog.LogMessage("Launched ball, delta is " + (pos - flickStartPos));
 				ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
 				flickStartPos = Vector2.zero;
 				isLaunching = false;
@@ -161,7 +156,6 @@ public class BallManager : MonoBehaviour
 		{
 			OnBallResetEventHandler(ballCount);
 		}
-		DebugLog.LogMessage("Reset ball");
 		StopCoroutine("UpdateGame");
 	}
 }

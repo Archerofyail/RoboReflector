@@ -35,7 +35,7 @@ public class Robot : MonoBehaviour
 			{
 				explosion = (GameObject)Resources.Load("Explosion");
 			}
-			other.rigidbody.AddForce(other.contacts[0].normal);
+			other.rigidbody.AddForce(other.contacts[0].normal.normalized * 3);
 			Instantiate(explosion, transform.position, Quaternion.identity);
 			DebugLog.LogMessage("Robot Destroyed");
 			OnDeath();

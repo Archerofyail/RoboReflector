@@ -1280,7 +1280,9 @@ public class UIFont : MonoBehaviour
 				else
 				{
 					if (!mDynamicFont.GetCharacterInfo(c, out mChar, mDynamicFontSize, mDynamicFontStyle))
+					{
 						continue;
+					}
 
 					v0.x =  invSize.x * (x + mChar.vert.xMin);
 					v0.y = -invSize.y * (y - mChar.vert.yMax + mDynamicFontOffset);

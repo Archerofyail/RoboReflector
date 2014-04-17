@@ -15,7 +15,6 @@ public class ScoreUpdater : MonoBehaviour
 
 	void UpdateScore(int newCount)
 	{
-		DebugLog.LogMessage("Update score UI, is now " + newCount);
 		label.text = newCount.ToString(CultureInfo.InvariantCulture);
 	}
 }

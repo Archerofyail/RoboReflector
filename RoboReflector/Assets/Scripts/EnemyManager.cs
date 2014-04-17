@@ -47,7 +47,7 @@ public class EnemyManager : MonoBehaviour
 		var blocksToSpawn = Random.Range(minBlocksPerRound, maxBlocksPerRound);
 		for (int i = 0; i < blocksToSpawn; i++)
 		{
-			blocks.Add((GameObject)Instantiate(block, new Vector2(Random.Range(-4f, 4f), Random.Range(-1.2f, 4f)), Quaternion.Euler(0, 0, Random.Range(0, 360f))));
+			blocks.Add((GameObject)Instantiate(block, new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-1.2f, 8.5f)), Quaternion.Euler(0, 0, Random.Range(0, 360f))));
 		}
 
 		var enemiesToSpawn = Random.Range(minEnemiesPerRound, maxEnemiesPerRound);

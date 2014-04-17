@@ -36,7 +36,7 @@ public class ScoreManager : MonoBehaviour
 	void OnBallReset(int count)
 	{
 		DebugLog.LogMessage("multiplier reset");
-		scoreMultiplier = 1;
+		scoreMultiplier = Mathf.Clamp(scoreMultiplier / 2, 1, 500);
 		if (MultiplierUpdateEventHandler != null)
 		{
 			MultiplierUpdateEventHandler(scoreMultiplier);

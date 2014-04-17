@@ -13,8 +13,6 @@ public class BallCountUpdater : MonoBehaviour
 
 	void UpdateBallCount(int newCount)
 	{
-		DebugLog.LogMessage("Update ballcount UI, is now " + newCount);
-
 		label.text = newCount.ToString(CultureInfo.InvariantCulture);
 	}
 }
