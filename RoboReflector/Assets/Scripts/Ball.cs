@@ -12,5 +12,13 @@ public class Ball : MonoBehaviour
 	{
 	
 	}
+
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.transform.tag == "Wall")
+		{
+			CamShake.intensity += 0.2f;
+		}
+	}
 }
 

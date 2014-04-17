@@ -2,11 +2,15 @@
 
 public class Robot : MonoBehaviour
 {
-	public int hitsToTake;
+	public int minHitsToTake;
+	public int maxHitsToTake;
+
+	private int hitsToTake;
 	private SpriteRenderer spriteRenderer;
 	void Start()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		hitsToTake = Random.Range(minHitsToTake, maxHitsToTake);
 		SetSpriteColor();
 	}
 
@@ -25,6 +29,7 @@ public class Robot : MonoBehaviour
 			{
 				Destroy(gameObject, 0.1f);
 			}
+			CamShake.intensity += 0.2f;
 		}
 	}
 
@@ -38,6 +43,12 @@ public class Robot : MonoBehaviour
 				break;
 			}
 			case 2:
+			{
+				spriteRenderer.color = Color.blue;
+				break;
+			}
+
+			case 3:
 			{
 				spriteRenderer.color = Color.red;
 				break;

@@ -2,17 +2,9 @@
 using System.Collections;
 using UnityEngine;
 
-public enum GameState
-{
-	BeforeLaunch,
-	BallMoving,
-	EndGame,
-}
-
-public class GameStateManager : MonoBehaviour
+public class BallManager : MonoBehaviour
 {
 	public int score;
-	public GameState currentGameState = GameState.BeforeLaunch;
 
 	#region Flick Stuff
 	private Vector2 flickStartPos;
@@ -20,7 +12,10 @@ public class GameStateManager : MonoBehaviour
 
 
 	private bool isTouching;
+	private bool isLaunching;
 	#endregion
+
+
 
 	private float ballNotMovedTime;
 	private float ballResetAfterStopTime = 1.5f;
@@ -30,27 +25,37 @@ public class GameStateManager : MonoBehaviour
 
 	public int ballCount = 3;
 
-	public GameStateManager()
+	public void SubscribeToEvents()
 	{
 		TouchHandler.OnTouchStartedEventHandler += OnTouchDown;
 		TouchHandler.OnTouchMovedEventHandler += OnTouchMoved;
 		TouchHandler.OnTouchEndedEventHandler += OnTouchEnd;
 	}
 
+	public void UnSubscribeToEvents()
+	{
+		TouchHandler.OnTouchStartedEventHandler -= OnTouchDown;
+		TouchHandler.OnTouchMovedEventHandler -= OnTouchMoved;
+		TouchHandler.OnTouchEndedEventHandler -= OnTouchEnd;
+	}
+
 	void Start()
 	{
 		Input.multiTouchEnabled = false;
 		ball.transform.position = ballStartPos.position;
-		
+		StartGame.GameStartEventHandler += GameStart;
+
+	}
+
+	void GameStart()
+	{
+		SubscribeToEvents();
 		StartCoroutine(UpdateGame());
-		//DebugLog.LogMessage("Started StateManager");
+		StartGame.GameStartEventHandler -= GameStart;
 	}
 
 	void OnDestroy()
 	{
-		//TouchHandler.OnTouchStartedEventHandler -= OnTouchDown;
-		//TouchHandler.OnTouchMovedEventHandler -= OnTouchMoved;
-		//TouchHandler.OnTouchEndedEventHandler -= OnTouchEnd;
 		DebugLog.LogMessage("Unsubscribed from events");
 	}
 
@@ -58,35 +63,14 @@ public class GameStateManager : MonoBehaviour
 	{
 		while (true)
 		{
-			if (Input.GetKeyDown(KeyCode.Escape))
+
+			if (ball.rigidbody2D.velocity.sqrMagnitude <= 0.5f)
 			{
-				Application.Quit();
-			}
-			switch (currentGameState)
-			{
-				case GameState.BeforeLaunch:
+				ballNotMovedTime += Time.deltaTime;
+				if (ballNotMovedTime > ballResetAfterStopTime)
 				{
-					
-					break;
+					ResetBall();
 				}
-				case GameState.BallMoving:
-				{
-					if (ball.rigidbody2D.velocity.sqrMagnitude <= 0.5f)
-					{
-						ballNotMovedTime += Time.deltaTime;
-						if (ballNotMovedTime > ballResetAfterStopTime)
-						{
-							ResetBall();
-						}
-					}
-					break;
-				}
-				case GameState.EndGame:
-				{
-					break;
-				}
-				default:
-				throw new ArgumentOutOfRangeException();
 			}
 			yield return null;
 		}
@@ -94,7 +78,7 @@ public class GameStateManager : MonoBehaviour
 
 	void OnTouchDown(Vector2 pos)
 	{
-		if (currentGameState == GameState.BeforeLaunch)
+		if (isLaunching)
 		{
 			if (ball.collider2D.OverlapPoint(pos))
 			{
@@ -108,7 +92,7 @@ public class GameStateManager : MonoBehaviour
 
 	void OnTouchStationary(Vector2 pos)
 	{
-		if (currentGameState == GameState.BeforeLaunch)
+		if (isLaunching)
 		{
 			if (isTouching)
 			{
@@ -119,8 +103,7 @@ public class GameStateManager : MonoBehaviour
 
 	void OnTouchMoved(Vector2 pos)
 	{
-		//DebugLog.LogMessage("Moving Ball, state is " + currentGameState);
-		if (currentGameState == GameState.BeforeLaunch)
+		if (isLaunching)
 		{
 			if (isTouching)
 			{
@@ -136,16 +119,14 @@ public class GameStateManager : MonoBehaviour
 	}
 	void OnTouchEnd(Vector2 pos)
 	{
-		DebugLog.LogMessage("Entered OnTouchEnd, state is " + currentGameState);
-
-		if (currentGameState == GameState.BeforeLaunch)
+		if (isLaunching)
 		{
 			if (isTouching)
 			{
 				DebugLog.LogMessage("Launched ball, delta is " + (pos - flickStartPos));
 				ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
 				flickStartPos = Vector2.zero;
-				currentGameState = GameState.BallMoving;
+				isLaunching = false;
 				isTouching = false;
 			}
 
@@ -158,7 +139,7 @@ public class GameStateManager : MonoBehaviour
 		ball.transform.position = ballStartPos.position;
 		ball.rigidbody2D.velocity = Vector2.zero;
 		ballNotMovedTime = 0f;
-		currentGameState = GameState.BeforeLaunch;
+		isLaunching = true;
 	}
 }
 
