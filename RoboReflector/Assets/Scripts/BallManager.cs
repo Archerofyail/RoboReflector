@@ -10,10 +10,10 @@ public class BallManager : MonoBehaviour
 
 
 	private bool isTouching;
-	private bool isLaunching = true;
+	private static bool isLaunching = true;
 	#endregion
 
-
+	private static BallManager ballManager;
 
 	private float ballNotMovedTime;
 	private float ballResetAfterStopTime = 1.5f;
@@ -45,6 +45,7 @@ public class BallManager : MonoBehaviour
 
 	void Start()
 	{
+		ballManager = this;
 		ballCount = initialBallCount;
 		Input.multiTouchEnabled = false;
 		ball.transform.position = ballStartPos.position;
@@ -53,6 +54,13 @@ public class BallManager : MonoBehaviour
 		{
 			OnBallResetEventHandler(ballCount);
 		}
+	}
+
+	public static void ReLaunch()
+	{
+		isLaunching = true;
+		ballManager.StopCoroutine("UpdateGame");
+		ballManager.ball.rigidbody2D.velocity = Vector2.zero;
 	}
 
 	public static void IncreaseBallCount()

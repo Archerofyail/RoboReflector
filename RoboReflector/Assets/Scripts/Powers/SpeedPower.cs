@@ -13,7 +13,7 @@ public class SpeedPower : Power
 
 	protected override void OnPress(bool isDown)
 	{
-		if (isDown)
+		if (isDown && charges > 0)
 		{
 			ball.velocity += ball.velocity.normalized * 15f;
 		}
