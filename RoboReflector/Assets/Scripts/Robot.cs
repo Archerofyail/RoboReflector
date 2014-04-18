@@ -9,12 +9,14 @@ public class Robot : MonoBehaviour
 	protected SpriteRenderer spriteRenderer;
 	public GameObject explosion;
 
+
 	void Start()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		hitsToTake = Random.Range(minHitsToTake, maxHitsToTake);
 		SetSpriteColor();
 	}
+
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
@@ -50,7 +52,6 @@ public class Robot : MonoBehaviour
 
 	protected virtual void OnDeath()
 	{
-		
 	}
 
 	private void SetSpriteColor()

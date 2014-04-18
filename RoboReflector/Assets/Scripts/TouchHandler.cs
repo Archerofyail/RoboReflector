@@ -24,65 +24,65 @@ public class TouchHandler : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();	
-		}
-		if (Input.touches.Length > 0)
-		{
-			currentTouch = Input.GetTouch(0);
-			if (currentTouch.phase != TouchPhase.Moved && currentTouch.phase != TouchPhase.Stationary)
+	if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				Instantiate(touchEventIcon,
-					new Vector2(Camera.main.ScreenToWorldPoint(currentTouch.position).x,
-						Camera.main.ScreenToWorldPoint(currentTouch.position).y), Quaternion.identity);
-				//DebugLog.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
+				Application.Quit();
+			}
+			if (Input.touches.Length > 0)
+			{
+				currentTouch = Input.GetTouch(0);
+				if (currentTouch.phase != TouchPhase.Moved && currentTouch.phase != TouchPhase.Stationary)
+				{
+					Instantiate(touchEventIcon,
+						new Vector2(Camera.main.ScreenToWorldPoint(currentTouch.position).x,
+							Camera.main.ScreenToWorldPoint(currentTouch.position).y), Quaternion.identity);
+					//DebugLog.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
 
+				}
+				switch (currentTouch.phase)
+				{
+					case TouchPhase.Began:
+					{
+						if (OnTouchStartedEventHandler != null)
+						{
+							OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						}
+						break;
+
+					}
+					case TouchPhase.Moved:
+					{
+						if (OnTouchMovedEventHandler != null)
+						{
+							OnTouchMovedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						}
+						break;
+					}
+					case TouchPhase.Stationary:
+					{
+						if (OnTouchStationaryEventHandler != null)
+						{
+							OnTouchStationaryEventHandler(currentTouch.position);
+						}
+						break;
+					}
+					case TouchPhase.Ended:
+					{
+						if (OnTouchEndedEventHandler != null)
+						{
+							OnTouchEndedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						}
+						break;
+					}
+					case TouchPhase.Canceled:
+					{
+						DebugLog.LogMessage("Touch cancelled");
+						break;
+					}
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
 			}
-			switch (currentTouch.phase)
-			{
-				case TouchPhase.Began:
-				{
-					if (OnTouchStartedEventHandler != null)
-					{
-						OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
-					}
-					break;
-				
-				}
-				case TouchPhase.Moved:
-				{
-					if (OnTouchMovedEventHandler != null)
-					{
-						OnTouchMovedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
-					}
-					break;
-				}
-				case TouchPhase.Stationary:
-				{
-					if (OnTouchStationaryEventHandler != null)
-					{
-						OnTouchStationaryEventHandler(currentTouch.position);
-					}
-					break;
-				}
-				case TouchPhase.Ended:
-				{
-					if (OnTouchEndedEventHandler != null)
-					{
-						OnTouchEndedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
-					}
-					break;
-				}
-				case TouchPhase.Canceled:
-				{
-					DebugLog.LogMessage("Touch cancelled");
-					break;
-				}
-				default:
-				throw new ArgumentOutOfRangeException();
-			}
-		}
 	}
 }
 

@@ -26,22 +26,23 @@ public class StartGame : MonoBehaviour
 
 	void Update()
 	{
-		startTimer += Time.deltaTime;
-		if (startTimer < readyTimerMax)
-		{
-			spriteRenderer.sprite = readySprite;
-		}
-		else if (startTimer < (readyTimerMax + goTimerMax))
-		{
-			spriteRenderer.sprite = goSprite;
-		}
-		else if (startTimer > (readyTimerMax + goTimerMax))
-		{
-			if (GameStartEventHandler != null)
+	
+			startTimer += Time.deltaTime;
+			if (startTimer < readyTimerMax)
 			{
-				GameStartEventHandler();
+				spriteRenderer.sprite = readySprite;
 			}
-			Destroy(gameObject);
+			else if (startTimer < (readyTimerMax + goTimerMax))
+			{
+				spriteRenderer.sprite = goSprite;
+			}
+			else if (startTimer > (readyTimerMax + goTimerMax))
+			{
+				if (GameStartEventHandler != null)
+				{
+					GameStartEventHandler();
+				}
+				Destroy(gameObject);
 		}
 
 	}

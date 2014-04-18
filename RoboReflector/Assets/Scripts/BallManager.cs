@@ -22,6 +22,7 @@ public class BallManager : MonoBehaviour
 	public Transform ballStartPos;
 	public int initialBallCount;
 	public static int ballCount;
+	private Vector2 ballVelocity;
 	public delegate void OnBallResetEvent(int count);
 
 	public static event OnBallResetEvent OnBallResetEventHandler;
@@ -74,15 +75,16 @@ public class BallManager : MonoBehaviour
 	{
 		while (true)
 		{
-
-			if (ball.rigidbody2D.velocity.sqrMagnitude <= 0.5f)
-			{
-				ballNotMovedTime += Time.deltaTime;
-				if (ballNotMovedTime > ballResetAfterStopTime)
+			
+				if (ball.rigidbody2D.velocity.magnitude <= 0.2f)
 				{
-					ResetBall();
+					DebugLog.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
+					ballNotMovedTime += Time.deltaTime;
+					if (ballNotMovedTime > ballResetAfterStopTime)
+					{
+						ResetBall();
+					}
 				}
-			}
 			yield return null;
 		}
 	}

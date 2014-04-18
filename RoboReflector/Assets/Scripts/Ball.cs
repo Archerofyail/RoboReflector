@@ -7,11 +7,6 @@ public class Ball : MonoBehaviour
 	{
 		touchTrigger = GetComponentInChildren<Collider2D>();
 	}
-	
-	void Update () 
-	{
-	
-	}
 
 	void OnCollisionEnter2D(Collision2D other)
 	{

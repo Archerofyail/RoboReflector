@@ -15,19 +15,6 @@ public class CamShake : MonoBehaviour
 	{
 		StartCoroutine(Shake());
 	}
-	
-	void Update ()
-	{
-		if (Input.GetKeyDown(KeyCode.K))
-		{
-			intensity += 1;
-		}
-		if (Input.GetKeyDown(KeyCode.L))
-		{
-			intensity += 1;
-		}
-		
-	}
 
 	IEnumerator Shake()
 	{
