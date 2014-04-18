@@ -8,10 +8,17 @@ public class PlusOneBallAnimator : MonoBehaviour
 	public float risingSpeedIncrease = 0.2f;
 	public float alphaDecreaseSpeed = 0.05f;
 	public UILabel label;
+	public string textToAppend;
+	public float scale;
+
 
 	void Start ()
 	{
-		label = GetComponent<UILabel>();
+		if (scale > 0)
+		{
+			transform.localScale.Set(scale, scale, 1);
+		}
+		label.text += textToAppend;
 		StartCoroutine(FloatUp());
 	}
 

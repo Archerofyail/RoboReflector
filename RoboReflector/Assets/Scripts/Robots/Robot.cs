@@ -2,8 +2,8 @@
 
 public class Robot : MonoBehaviour
 {
-	public int minHitsToTake;
-	public int maxHitsToTake;
+	public int minHitsToTake = 1;
+	public int maxHitsToTake = 4;
 	public int scoreWorth = 200;
 	protected int hitsToTake;
 	protected SpriteRenderer spriteRenderer;
