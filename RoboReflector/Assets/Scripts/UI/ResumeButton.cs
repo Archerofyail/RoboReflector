@@ -7,7 +7,7 @@ public class ResumeButton : MonoBehaviour
 	{
 		if (isDown)
 		{
-			transform.root.gameObject.SetActive(false);
+			transform.parent.gameObject.SetActive(false);
 			Time.timeScale = 1;
 		}
 	}
