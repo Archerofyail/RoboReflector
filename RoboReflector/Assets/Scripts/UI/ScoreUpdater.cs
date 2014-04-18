@@ -13,6 +13,11 @@ public class ScoreUpdater : MonoBehaviour
 		ScoreManager.ScoreUpdateEventHandler += UpdateScore;
 	}
 
+	void OnDestroy()
+	{
+		ScoreManager.ScoreUpdateEventHandler -= UpdateScore;
+	}
+
 	void UpdateScore(int newCount)
 	{
 		label.text = newCount.ToString(CultureInfo.InvariantCulture);

@@ -13,6 +13,11 @@ public class MultiplierUpdater : MonoBehaviour
 		ScoreManager.MultiplierUpdateEventHandler += UpdateMultiplier;
 	}
 
+	void OnDestroy()
+	{
+		ScoreManager.MultiplierUpdateEventHandler -= UpdateMultiplier;
+	}
+
 	void UpdateMultiplier(float newCount)
 	{
 		label.text = Math.Round(newCount, 2) + "x";

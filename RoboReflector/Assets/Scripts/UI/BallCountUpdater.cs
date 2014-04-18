@@ -11,6 +11,11 @@ public class BallCountUpdater : MonoBehaviour
 		BallManager.OnBallCountUpdatedEventHandler += UpdateBallCount;
 	}
 
+	void OnDestroy()
+	{
+		BallManager.OnBallCountUpdatedEventHandler -= UpdateBallCount;
+	}
+
 	void UpdateBallCount(int newCount)
 	{
 		label.text = newCount.ToString(CultureInfo.InvariantCulture);

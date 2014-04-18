@@ -8,9 +8,17 @@ public class LaunchAreaBarrier : MonoBehaviour
 		BallManager.OnBallResetEventHandler += OnBallReset;
 	}
 
+	void OnDestroy()
+	{
+		BallManager.OnBallResetEventHandler -= OnBallReset;
+	}
+
 	void OnBallReset(int newCount)
 	{
-		collider2D.isTrigger = true;
+		if (collider2D)
+		{
+			collider2D.isTrigger = true;
+		}
 	}
 
 	void OnTriggerExit2D(Collider2D other)

@@ -43,6 +43,11 @@ public class BallManager : MonoBehaviour
 		TouchHandler.OnTouchEndedEventHandler -= OnTouchEnd;
 	}
 
+	void OnDestroy()
+	{
+		UnSubscribeToEvents();
+	}
+
 	void Start()
 	{
 		ballManager = this;

@@ -18,6 +18,11 @@ public class ScoreManager : MonoBehaviour
 		DebugLog.LogMessage("Score manager Subscribed to BallReset");
 	}
 
+	void OnDestroy()
+	{
+		BallManager.OnBallResetEventHandler -= OnBallReset;
+	}
+
 	public static void IncreaseScore(int score)
 	{
 		DebugLog.LogMessage("Increased score by " + (score * scoreMultiplier));
