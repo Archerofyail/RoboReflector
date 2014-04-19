@@ -23,6 +23,15 @@ public class Block : MonoBehaviour
 		TouchHandler.OnTouchEndedEventHandler -= OnTouchEnd;
 	}
 
+
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.transform.tag == "Laser")
+		{
+			other.gameObject.SetActive(false);
+		}
+	}
+
 	void OnTouchDown(Vector2 pos)
 	{
 		if (collider2D.OverlapPoint(pos))

@@ -10,7 +10,8 @@ public class BallManager : MonoBehaviour
 
 
 	private bool isTouching;
-	private static bool isLaunching = true;
+	public static bool IsLaunching { get; private set; }
+	public static bool shouldMoveBallOnLaunch = true;
 	#endregion
 
 	private static BallManager ballManager;
@@ -50,6 +51,7 @@ public class BallManager : MonoBehaviour
 
 	void Start()
 	{
+		IsLaunching = true;
 		ballManager = this;
 		ballCount = initialBallCount;
 		Input.multiTouchEnabled = false;
@@ -63,7 +65,8 @@ public class BallManager : MonoBehaviour
 
 	public static void ReLaunch()
 	{
-		isLaunching = true;
+		IsLaunching = true;
+		shouldMoveBallOnLaunch = false;
 		ballManager.StopCoroutine("UpdateGame");
 		ballManager.ball.rigidbody2D.velocity = Vector2.zero;
 	}
@@ -104,7 +107,7 @@ public class BallManager : MonoBehaviour
 
 	void OnTouchDown(Vector2 pos)
 	{
-		if (isLaunching)
+		if (IsLaunching)
 		{
 			if (ball.touchTrigger.OverlapPoint(pos))
 			{
@@ -116,7 +119,7 @@ public class BallManager : MonoBehaviour
 
 	void OnTouchStationary(Vector2 pos)
 	{
-		if (isLaunching)
+		if (IsLaunching)
 		{
 			if (isTouching)
 			{
@@ -127,7 +130,7 @@ public class BallManager : MonoBehaviour
 
 	void OnTouchMoved(Vector2 pos)
 	{
-		if (isLaunching)
+		if (IsLaunching)
 		{
 			if (isTouching)
 			{
@@ -136,19 +139,22 @@ public class BallManager : MonoBehaviour
 					flickStartPos = pos;
 				}
 				flickLastPos = pos;
-				ball.transform.position = pos;
+				if (shouldMoveBallOnLaunch)
+				{
+					ball.transform.position = pos;
+				}
 			}
 		}
 	}
 	void OnTouchEnd(Vector2 pos)
 	{
-		if (isLaunching)
+		if (IsLaunching)
 		{
 			if (isTouching)
 			{
 				ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
 				flickStartPos = Vector2.zero;
-				isLaunching = false;
+				IsLaunching = false;
 				isTouching = false;
 				StartCoroutine("UpdateGame");
 			}
@@ -162,7 +168,7 @@ public class BallManager : MonoBehaviour
 		ball.transform.position = ballStartPos.position;
 		ball.rigidbody2D.velocity = Vector2.zero;
 		ballNotMovedTime = 0f;
-		isLaunching = true;
+		IsLaunching = true;
 		if (OnBallCountUpdatedEventHandler != null)
 		{
 			OnBallCountUpdatedEventHandler(ballCount);
