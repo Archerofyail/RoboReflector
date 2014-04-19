@@ -47,7 +47,6 @@ public class LaunchAreaBarrier : MonoBehaviour
 			print("Placed pixels");
 			texture.SetPixels(pixels);
 			texture.Apply();
-			collider2D.isTrigger = false;
 		}
 	}
 

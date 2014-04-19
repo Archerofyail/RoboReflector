@@ -37,7 +37,7 @@ public class Robot : MonoBehaviour
 		{
 			Destroy(laser);
 		}
-		BallManager.OnBallResetEventHandler += OnBallReset;
+		BallManager.OnBallResetEventHandler -= OnBallReset;
 	}
 
 	void OnBallReset(int newCount)

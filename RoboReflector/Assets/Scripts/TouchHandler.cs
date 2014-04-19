@@ -30,92 +30,98 @@ public class TouchHandler : MonoBehaviour
 		{
 			Application.Quit();
 		}
-		if (Input.GetMouseButtonDown(0))
+		if (Input.mousePresent)
 		{
-			if (OnTouchStartedEventHandler != null)
+			if (Input.GetMouseButtonDown(0))
 			{
-				OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-			}
-		}
-		if (Input.GetMouseButton(0))
-		{
-			Vector2 currentPos = camera.ScreenToWorldPoint(Input.mousePosition);
-			if (lastMousePos != currentPos)
-			{
-				if (OnTouchMovedEventHandler != null)
+				if (OnTouchStartedEventHandler != null)
 				{
-					OnTouchMovedEventHandler(currentPos);
+					OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 				}
 			}
-			else
+			if (Input.GetMouseButton(0))
 			{
-				if (OnTouchStationaryEventHandler != null)
-				{
-					OnTouchStationaryEventHandler(currentPos);
-				}
-			}
-			lastMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		}
-		if (Input.GetMouseButtonUp(0))
-		{
-			if (OnTouchEndedEventHandler != null)
-			{
-				OnTouchEndedEventHandler(camera.ScreenToWorldPoint(Input.mousePosition));
-			}
-		}
-		if (Input.touches.Length > 0)
-		{
-			currentTouch = Input.GetTouch(0);
-			if (currentTouch.phase != TouchPhase.Moved && currentTouch.phase != TouchPhase.Stationary)
-			{
-				Instantiate(touchEventIcon,
-					new Vector2(Camera.main.ScreenToWorldPoint(currentTouch.position).x,
-						Camera.main.ScreenToWorldPoint(currentTouch.position).y), Quaternion.identity);
-				//DebugLog.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
-
-			}
-			switch (currentTouch.phase)
-			{
-				case TouchPhase.Began:
-				{
-					if (OnTouchStartedEventHandler != null)
-					{
-						OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
-					}
-					break;
-
-				}
-				case TouchPhase.Moved:
+				Vector2 currentPos = camera.ScreenToWorldPoint(Input.mousePosition);
+				if (lastMousePos != currentPos)
 				{
 					if (OnTouchMovedEventHandler != null)
 					{
-						OnTouchMovedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						OnTouchMovedEventHandler(currentPos);
 					}
-					break;
 				}
-				case TouchPhase.Stationary:
+				else
 				{
 					if (OnTouchStationaryEventHandler != null)
 					{
-						OnTouchStationaryEventHandler(currentTouch.position);
+						OnTouchStationaryEventHandler(currentPos);
 					}
-					break;
 				}
-				case TouchPhase.Ended:
+				lastMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			}
+			if (Input.GetMouseButtonUp(0))
+			{
+				if (OnTouchEndedEventHandler != null)
 				{
-					if (OnTouchEndedEventHandler != null)
+					OnTouchEndedEventHandler(camera.ScreenToWorldPoint(Input.mousePosition));
+				}
+			}
+		}
+		else
+		{
+			if (Input.touchCount > 0)
+			{
+				currentTouch = Input.GetTouch(0);
+				if (currentTouch.phase != TouchPhase.Moved && currentTouch.phase != TouchPhase.Stationary)
+				{
+					Instantiate(touchEventIcon,
+						new Vector2(Camera.main.ScreenToWorldPoint(currentTouch.position).x,
+							Camera.main.ScreenToWorldPoint(currentTouch.position).y), Quaternion.identity);
+					//DebugLog.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
+
+				}
+				switch (currentTouch.phase)
+				{
+					case TouchPhase.Began:
 					{
-						OnTouchEndedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						if (OnTouchStartedEventHandler != null)
+						{
+							OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						}
+						break;
+
 					}
-					break;
+					case TouchPhase.Moved:
+					{
+						if (OnTouchMovedEventHandler != null)
+						{
+							OnTouchMovedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						}
+						break;
+					}
+					case TouchPhase.Stationary:
+					{
+						if (OnTouchStationaryEventHandler != null)
+						{
+							OnTouchStationaryEventHandler(currentTouch.position);
+						}
+						break;
+					}
+					case TouchPhase.Ended:
+					{
+						if (OnTouchEndedEventHandler != null)
+						{
+							OnTouchEndedEventHandler(Camera.main.ScreenToWorldPoint(currentTouch.position));
+						}
+						break;
+					}
+					case TouchPhase.Canceled:
+					{
+						DebugLog.LogMessage("Touch cancelled");
+						break;
+					}
+					default:
+						throw new ArgumentOutOfRangeException();
 				}
-				case TouchPhase.Canceled:
-				{
-					DebugLog.LogMessage("Touch cancelled");
-					break;
-				}
-				default:
-				throw new ArgumentOutOfRangeException();
 			}
 		}
 	}

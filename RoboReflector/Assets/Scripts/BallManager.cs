@@ -9,7 +9,7 @@ public class BallManager : MonoBehaviour
 	private Vector2 flickLastPos;
 
 
-	private bool isTouching;
+	public static bool IsTouching { get; private set; }
 	public static bool IsLaunching { get; private set; }
 	public static bool shouldMoveBallOnLaunch = true;
 	#endregion
@@ -112,7 +112,7 @@ public class BallManager : MonoBehaviour
 			if (ball.touchTrigger.OverlapPoint(pos))
 			{
 				flickStartPos = pos;
-				isTouching = true;
+				IsTouching = true;
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class BallManager : MonoBehaviour
 	{
 		if (IsLaunching)
 		{
-			if (isTouching)
+			if (IsTouching)
 			{
 				flickStartPos = pos;
 			}
@@ -132,7 +132,7 @@ public class BallManager : MonoBehaviour
 	{
 		if (IsLaunching)
 		{
-			if (isTouching)
+			if (IsTouching)
 			{
 				if (Vector2.Distance(flickLastPos, pos) < 0.5f)
 				{
@@ -150,12 +150,12 @@ public class BallManager : MonoBehaviour
 	{
 		if (IsLaunching)
 		{
-			if (isTouching)
+			if (IsTouching)
 			{
 				ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
 				flickStartPos = Vector2.zero;
 				IsLaunching = false;
-				isTouching = false;
+				IsTouching = false;
 				StartCoroutine("UpdateGame");
 			}
 
