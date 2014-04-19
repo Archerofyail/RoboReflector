@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class Robot : MonoBehaviour
 	public int objectsInPool = 4;
 	protected int hitsToTake;
 	protected SpriteRenderer spriteRenderer;
+	private readonly Vector2 relativeLaunchPos = new Vector2(0.35f, -0.44f);
+	public UILabel healthLabel;
 
 	private GameObject[] lasers;
 
@@ -27,7 +30,7 @@ public class Robot : MonoBehaviour
 		}
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		hitsToTake = Random.Range(minHitsToTake, maxHitsToTake);
-		SetSpriteColor();
+		SetHealth();
 		StartCoroutine("FireBullet");
 	}
 
@@ -75,7 +78,7 @@ public class Robot : MonoBehaviour
 		}
 		else
 		{
-			SetSpriteColor();
+			SetHealth();
 		}
 		CamShake.intensity += 0.2f;
 	}
@@ -98,7 +101,7 @@ public class Robot : MonoBehaviour
 						if (activeLaser)
 						{
 							activeLaser.SetActive(true);
-							activeLaser.transform.position = transform.position;
+							activeLaser.transform.position = transform.TransformPoint(relativeLaunchPos);
 							activeLaser.transform.rotation = Quaternion.identity;
 							activeLaser.rigidbody2D.AddForce(-Vector2.up * 150);
 						}
@@ -109,28 +112,9 @@ public class Robot : MonoBehaviour
 		}
 	}
 
-	private void SetSpriteColor()
+	private void SetHealth()
 	{
-		switch (hitsToTake)
-		{
-			case 1:
-			{
-				spriteRenderer.color = Color.green;
-				break;
-			}
-			case 2:
-			{
-				spriteRenderer.color = Color.blue;
-				break;
-			}
-
-			case 3:
-			{
-				spriteRenderer.color = Color.red;
-				break;
-			}
-
-		}
+		healthLabel.text = hitsToTake.ToString(CultureInfo.InvariantCulture);
 	}
 }
 
