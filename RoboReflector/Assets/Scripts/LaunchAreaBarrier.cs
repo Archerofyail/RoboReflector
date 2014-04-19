@@ -55,7 +55,7 @@ public class LaunchAreaBarrier : MonoBehaviour
 		if (other.tag == "Ball")
 		{
 			collider2D.isTrigger = false;
-			DebugLog.LogMessage("Barrier is now on");
+			Log.LogMessage("Barrier is now on");
 		}
 		
 	}

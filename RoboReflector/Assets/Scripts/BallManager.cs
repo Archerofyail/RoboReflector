@@ -11,7 +11,7 @@ public class BallManager : MonoBehaviour
 
 	public static bool IsTouching { get; private set; }
 	public static bool IsLaunching { get; private set; }
-	public static bool shouldMoveBallOnLaunch = true;
+
 	#endregion
 
 	private static BallManager ballManager;
@@ -66,7 +66,6 @@ public class BallManager : MonoBehaviour
 	public static void ReLaunch()
 	{
 		IsLaunching = true;
-		shouldMoveBallOnLaunch = false;
 		ballManager.StopCoroutine("UpdateGame");
 		ballManager.ball.rigidbody2D.velocity = Vector2.zero;
 	}
@@ -94,7 +93,7 @@ public class BallManager : MonoBehaviour
 			
 				if (ball.rigidbody2D.velocity.magnitude <= 0.2f)
 				{
-					DebugLog.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
+					Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
 					ballNotMovedTime += Time.deltaTime;
 					if (ballNotMovedTime > ballResetAfterStopTime)
 					{
@@ -139,10 +138,6 @@ public class BallManager : MonoBehaviour
 					flickStartPos = pos;
 				}
 				flickLastPos = pos;
-				if (shouldMoveBallOnLaunch)
-				{
-					ball.transform.position = pos;
-				}
 			}
 		}
 	}

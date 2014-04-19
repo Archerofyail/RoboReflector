@@ -76,7 +76,7 @@ public class TouchHandler : MonoBehaviour
 					Instantiate(touchEventIcon,
 						new Vector2(Camera.main.ScreenToWorldPoint(currentTouch.position).x,
 							Camera.main.ScreenToWorldPoint(currentTouch.position).y), Quaternion.identity);
-					//DebugLog.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
+					//Log.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
 
 				}
 				switch (currentTouch.phase)
@@ -116,7 +116,7 @@ public class TouchHandler : MonoBehaviour
 					}
 					case TouchPhase.Canceled:
 					{
-						DebugLog.LogMessage("Touch cancelled");
+						Log.LogMessage("Touch cancelled");
 						break;
 					}
 					default:

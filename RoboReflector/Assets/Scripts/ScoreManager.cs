@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour
 	void Start()
 	{
 		BallManager.OnBallResetEventHandler += OnBallReset;
-		DebugLog.LogMessage("Score manager Subscribed to BallReset");
+		Log.LogMessage("Score manager Subscribed to BallReset");
 	}
 
 	void OnDestroy()
@@ -25,7 +25,7 @@ public class ScoreManager : MonoBehaviour
 
 	public static void IncreaseScore(int score)
 	{
-		DebugLog.LogMessage("Increased score by " + (score * scoreMultiplier));
+		Log.LogMessage("Increased score by " + (score * scoreMultiplier));
 		Score += (int)(score * scoreMultiplier);
 		scoreMultiplier += 0.5f;
 		if (MultiplierUpdateEventHandler != null)
@@ -40,7 +40,7 @@ public class ScoreManager : MonoBehaviour
 
 	void OnBallReset(int count)
 	{
-		DebugLog.LogMessage("multiplier reset");
+		Log.LogMessage("multiplier reset");
 		scoreMultiplier = Mathf.Clamp(scoreMultiplier / 2, 1, 500);
 		if (MultiplierUpdateEventHandler != null)
 		{

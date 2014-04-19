@@ -6,7 +6,7 @@ public class ExtraBallRobot : Robot
 
 	protected override void OnDeath()
 	{
-		DebugLog.LogMessage("Instantiated plus one sprite");
+		Log.LogMessage("Instantiated plus one sprite");
 		BallManager.IncreaseBallCount();
 		Instantiate(plusOneSprite, transform.position - Vector3.forward, Quaternion.identity);
 		base.OnDeath();
