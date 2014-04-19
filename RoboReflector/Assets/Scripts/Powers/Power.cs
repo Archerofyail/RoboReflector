@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Power : MonoBehaviour
 {
-	public int charges = 0;
+	public int charges = 6;
 	public UILabel label;
 
 	protected virtual void Start()
@@ -20,6 +20,12 @@ public class Power : MonoBehaviour
 			charges--;
 			label.text = charges.ToString(CultureInfo.InvariantCulture);
 		}
+	}
+
+	public void IncreaseCharges()
+	{
+		charges++;
+		label.text = charges.ToString(CultureInfo.InvariantCulture);
 	}
 }
 

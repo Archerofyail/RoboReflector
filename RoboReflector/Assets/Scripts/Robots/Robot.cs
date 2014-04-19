@@ -31,7 +31,7 @@ public class Robot : MonoBehaviour
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		hitsToTake = Random.Range(minHitsToTake, maxHitsToTake);
 		SetHealth();
-		StartCoroutine("FireBullet");
+		Invoke("StartFiring", Random.Range(0f, 5f));
 	}
 
 	void OnDestroy()
@@ -84,6 +84,11 @@ public class Robot : MonoBehaviour
 	}
 
 	protected virtual void OnDeath(){}
+
+	void StartFiring()
+	{
+		StartCoroutine("FireBullet");
+	}
 
 	IEnumerator FireBullet()
 	{

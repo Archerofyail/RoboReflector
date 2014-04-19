@@ -8,6 +8,7 @@ public class SpeedRobot : Robot
 		var sprite = (PlusOneBallAnimator)Instantiate(plusOneSprite, transform.position, Quaternion.identity);
 		sprite.scale = 0.5f;
 		sprite.textToAppend = " Speed Power";
+		FindObjectOfType<SpeedPower>().IncreaseCharges();
 		base.OnDeath();
 	}
 }

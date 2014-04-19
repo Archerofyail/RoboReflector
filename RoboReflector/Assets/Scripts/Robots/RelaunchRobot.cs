@@ -8,6 +8,7 @@ public class RelaunchRobot : Robot
 		var plusOne = (PlusOneBallAnimator) Instantiate(sprite, transform.position, Quaternion.identity);
 		plusOne.scale = 0.5f;
 		plusOne.textToAppend = " Relaunches";
+		FindObjectOfType<ReLaunchPower>().IncreaseCharges();
 		base.OnDeath();
 	}
 }
