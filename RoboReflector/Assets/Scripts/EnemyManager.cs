@@ -47,7 +47,7 @@ public class EnemyManager : MonoBehaviour
 		var blocksToSpawn = Random.Range(minBlocksPerRound, maxBlocksPerRound);
 		for (int i = 0; i < blocksToSpawn; i++)
 		{
-			blocks.Add((GameObject)Instantiate(block, new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-1.2f, 8.5f)), Quaternion.Euler(0, 0, Random.Range(0, 360f))));
+			blocks.Add((GameObject)Instantiate(block, (Vector2)transform.position + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)), Quaternion.Euler(0, 0, Random.Range(0, 360f))));
 		}
 
 		var enemiesToSpawn = Random.Range(minEnemiesPerRound, maxEnemiesPerRound);
@@ -55,7 +55,7 @@ public class EnemyManager : MonoBehaviour
 		{
 			robots.Add((Robot)
 				Instantiate(roboPrefabs[Random.Range(0, roboPrefabs.Length)],
-					((Vector2)transform.position) + Random.insideUnitCircle * 4f, Quaternion.identity));
+					((Vector2)transform.position) + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)), Quaternion.identity));
 			robots[i].explosion = explosion;
 		}
 		StartGame.GameStartEventHandler -= SpawnRound;
