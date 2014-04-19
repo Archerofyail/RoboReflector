@@ -71,14 +71,6 @@ public class TouchHandler : MonoBehaviour
 			if (Input.touchCount > 0)
 			{
 				currentTouch = Input.GetTouch(0);
-				if (currentTouch.phase != TouchPhase.Moved && currentTouch.phase != TouchPhase.Stationary)
-				{
-					Instantiate(touchEventIcon,
-						new Vector2(Camera.main.ScreenToWorldPoint(currentTouch.position).x,
-							Camera.main.ScreenToWorldPoint(currentTouch.position).y), Quaternion.identity);
-					//Log.LogMessage("pos is" + Camera.main.ScreenToWorldPoint(currentTouch.position));
-
-				}
 				switch (currentTouch.phase)
 				{
 					case TouchPhase.Began:
