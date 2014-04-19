@@ -11,7 +11,7 @@ public class PauseButton : MonoBehaviour
 	
 	void OnPress (bool isDown) 
 	{
-		if (isDown)
+		if (!isDown)
 		{
 			menu.SetActive(true);
 			Time.timeScale = 0;

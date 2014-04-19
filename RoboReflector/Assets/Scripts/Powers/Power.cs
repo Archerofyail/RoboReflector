@@ -15,7 +15,7 @@ public class Power : MonoBehaviour
 
 	protected virtual void OnPress(bool isDown)
 	{
-		if (isDown && charges > 0)
+		if (!isDown && charges > 0)
 		{
 			charges--;
 			label.text = charges.ToString(CultureInfo.InvariantCulture);

@@ -13,7 +13,7 @@ public class MainMenuButton : MonoBehaviour
 
 	void OnPress(bool isDown)
 	{
-		if (isDown)
+		if (!isDown)
 		{
 			confirmMenu.SetActive(true);
 		}
