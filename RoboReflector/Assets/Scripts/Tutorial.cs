@@ -21,10 +21,10 @@ public class Tutorial : MonoBehaviour
 			//spriteRenderer.sprite = tutorials[index];
 			tutorials[0].SetActive(true);
 		}
-		//if (PlayerPrefs.GetInt("HasTutorialRun") == 1)
-		//{
-		//	Destroy(gameObject);
-		//}
+		if (PlayerPrefs.GetInt("HasTutorialRun") == 1)
+		{
+			Destroy(gameObject);
+		}
 		PlayerPrefs.SetInt("HasTutorialRun", 1);
 		TouchHandler.OnTouchEndedEventHandler += OnTouchDown;
 	}

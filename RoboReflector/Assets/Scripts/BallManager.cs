@@ -76,12 +76,6 @@ public class BallManager : MonoBehaviour
 			var core = GameObject.Find("Core").GetComponent<Core>();
 			core.GameOver();
 			core.firstExplosion.SetActive(true);
-
-		}
-
-		if (Input.GetKeyDown(KeyCode.D))
-		{
-			PlayerPrefs.SetInt("HasRunTutorial", 0);
 		}
 	}
 
@@ -130,7 +124,7 @@ public class BallManager : MonoBehaviour
 	{
 		if (IsLaunching)
 		{
-			if (ball.touchTrigger.OverlapPoint(pos))
+			//if (ball.touchTrigger.OverlapPoint(pos))
 			{
 				flickStartPos = pos;
 				IsTouching = true;
@@ -179,7 +173,7 @@ public class BallManager : MonoBehaviour
 		}
 	}
 
-	void ResetBall()
+	public void ResetBall()
 	{
 		ballCount--;
 		if (ballCount <= 0)
