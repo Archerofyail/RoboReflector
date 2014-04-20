@@ -4,6 +4,8 @@ using UnityEngine;
 public class BallManager : MonoBehaviour
 {
 
+	public GameObject gameOverMenu;
+
 	#region Flick Stuff
 	private Vector2 flickStartPos;
 	private Vector2 flickLastPos;
@@ -60,6 +62,21 @@ public class BallManager : MonoBehaviour
 		if (OnBallResetEventHandler != null)
 		{
 			OnBallResetEventHandler(ballCount);
+		}
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			gameOverMenu.SetActive(true);
+		}
+		if (Input.GetKeyDown(KeyCode.C))
+		{
+			var core = GameObject.Find("Core").GetComponent<Core>();
+			core.GameOver();
+			core.firstExplosion.SetActive(true);
+
 		}
 	}
 
@@ -160,19 +177,26 @@ public class BallManager : MonoBehaviour
 	void ResetBall()
 	{
 		ballCount--;
-		ball.transform.position = ballStartPos.position;
-		ball.rigidbody2D.velocity = Vector2.zero;
-		ballNotMovedTime = 0f;
-		IsLaunching = true;
-		if (OnBallCountUpdatedEventHandler != null)
+		if (ballCount <= 0)
 		{
-			OnBallCountUpdatedEventHandler(ballCount);
+			gameOverMenu.SetActive(true);
 		}
-		if (OnBallResetEventHandler != null)
+		else
 		{
-			OnBallResetEventHandler(ballCount);
+			ball.transform.position = ballStartPos.position;
+			ball.rigidbody2D.velocity = Vector2.zero;
+			ballNotMovedTime = 0f;
+			IsLaunching = true;
+			if (OnBallCountUpdatedEventHandler != null)
+			{
+				OnBallCountUpdatedEventHandler(ballCount);
+			}
+			if (OnBallResetEventHandler != null)
+			{
+				OnBallResetEventHandler(ballCount);
+			}
+			StopCoroutine("UpdateGame");
 		}
-		StopCoroutine("UpdateGame");
 	}
 }
 

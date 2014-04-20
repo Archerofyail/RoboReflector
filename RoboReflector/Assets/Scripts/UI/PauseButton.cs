@@ -2,13 +2,8 @@
 
 public class PauseButton : MonoBehaviour
 {
-	private GameObject menu;
-	void Start ()
-	{
-		menu = GameObject.Find("PauseMenu");
-		menu.SetActive(false);
-	}
-	
+	public GameObject menu;
+
 	void OnPress (bool isDown) 
 	{
 		if (!isDown)

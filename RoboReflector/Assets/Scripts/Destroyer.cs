@@ -3,7 +3,7 @@
 public class Destroyer : MonoBehaviour
 {
 	public float destructionTime = 3;
-	void Start () 
+	protected virtual void Start () 
 	{
 		Destroy(gameObject, destructionTime);
 	}

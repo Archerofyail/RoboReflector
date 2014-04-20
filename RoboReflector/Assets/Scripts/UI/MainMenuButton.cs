@@ -3,13 +3,7 @@
 public class MainMenuButton : MonoBehaviour
 {
 
-	private GameObject confirmMenu;
-
-	void Start()
-	{
-		confirmMenu = GameObject.Find("ConfirmQuit");
-		confirmMenu.SetActive(false);
-	}
+	public GameObject confirmMenu;
 
 	void OnPress(bool isDown)
 	{
