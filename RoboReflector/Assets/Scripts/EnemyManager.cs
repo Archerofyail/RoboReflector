@@ -19,22 +19,27 @@ public class EnemyManager : MonoBehaviour
 	{
 		robots = new List<Robot>();
 		blocks = new List<GameObject>();
-		StartGame.GameStartEventHandler += SpawnRound;
-		StartCoroutine(CheckForRobots());
+		StartGame.GameStartEventHandler += FirstStart;
+		
 	}
 
 	IEnumerator CheckForRobots()
 	{
 		while (true)
 		{
-			if (robots.All(robot => robot == null))
+			if (robots.All(robot => robot == null) || robots.Count == 0)
 			{
 				SpawnRound();
-				BallManager.IncreaseBallCount();
 				BallManager.IncreaseBallCount();
 			}
 			yield return new WaitForSeconds(0.1f);
 		}
+	}
+
+	void FirstStart()
+	{
+		StartCoroutine(CheckForRobots());
+		StartGame.GameStartEventHandler -= FirstStart;
 	}
 
 	private void SpawnRound()
@@ -58,8 +63,6 @@ public class EnemyManager : MonoBehaviour
 					((Vector2)transform.position) + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)), Quaternion.identity));
 			robots[i].explosion = explosion;
 		}
-		StartGame.GameStartEventHandler -= SpawnRound;
-
 	}
 }
 

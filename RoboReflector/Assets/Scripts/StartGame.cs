@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class StartGame : MonoBehaviour 
+public class StartGame : MonoBehaviour
 {
 	#region Start Timings
 
@@ -26,8 +26,10 @@ public class StartGame : MonoBehaviour
 
 	void Update()
 	{
-	
+		if (Time.timeScale > 0.5f)
+		{
 			startTimer += Time.deltaTime;
+
 			if (startTimer < readyTimerMax)
 			{
 				spriteRenderer.sprite = readySprite;
@@ -43,6 +45,7 @@ public class StartGame : MonoBehaviour
 					GameStartEventHandler();
 				}
 				Destroy(gameObject);
+			}
 		}
 
 	}

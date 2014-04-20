@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class ReLaunchPower : Power
+﻿public class ReLaunchPower : Power
 {
 
 	protected override void OnPress(bool isDown)

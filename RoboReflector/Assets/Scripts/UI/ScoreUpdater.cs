@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class ScoreUpdater : MonoBehaviour 
 {
