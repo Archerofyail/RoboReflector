@@ -4,6 +4,8 @@ using UnityEngine;
 public class AboutButton : MonoBehaviour
 {
 	public Transform aboutDialog;
+	public Vector3 initialAboutPos;
+	public Vector3 finalAboutPos = new Vector3(-49, -167f);
 	public float bringDownTime = 1.5f;
 	public float speed = 50f;
 	void OnPress(bool isDown)
@@ -19,10 +21,12 @@ public class AboutButton : MonoBehaviour
 
 	IEnumerator BringDownAbout()
 	{
+		initialAboutPos = aboutDialog.position;
 		float timer = 0;
 		while (timer < bringDownTime)
 		{
-			aboutDialog.Translate(0, speed * Time.deltaTime, 0);
+			aboutDialog.position = new Vector3(aboutDialog.position.x,
+				Mathf.SmoothStep(initialAboutPos.y, finalAboutPos.y, timer / bringDownTime), aboutDialog.position.z);
 			timer += Time.deltaTime;
 			yield return null;
 		}
