@@ -9,6 +9,7 @@ public class GameOverFadein : MonoBehaviour
 	void Start ()
 	{
 		StartCoroutine("FadeCoverIn");
+		PlayerPrefs.SetInt("HighScore", ScoreManager.Score);
 	}
 
 	IEnumerator FadeCoverIn()

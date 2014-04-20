@@ -107,12 +107,13 @@ public class BallManager : MonoBehaviour
 		while (true)
 		{
 			
-				if (ball.rigidbody2D.velocity.magnitude <= 0.2f)
+				if (ball.rigidbody2D.velocity.magnitude <= 0.2f && !IsLaunching)
 				{
 					Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
 					ballNotMovedTime += Time.deltaTime;
 					if (ballNotMovedTime > ballResetAfterStopTime)
 					{
+						Debug.Log("Resetting ball...");
 						ResetBall();
 					}
 				}
@@ -175,6 +176,7 @@ public class BallManager : MonoBehaviour
 
 	public void ResetBall()
 	{
+
 		ballCount--;
 		if (ballCount <= 0)
 		{
@@ -182,6 +184,7 @@ public class BallManager : MonoBehaviour
 		}
 		else
 		{
+			StopCoroutine("UpdateGame");
 			ball.transform.position = ballStartPos.position;
 			ball.rigidbody2D.velocity = Vector2.zero;
 			ballNotMovedTime = 0f;
@@ -194,7 +197,7 @@ public class BallManager : MonoBehaviour
 			{
 				OnBallResetEventHandler(ballCount);
 			}
-			StopCoroutine("UpdateGame");
+			
 		}
 	}
 }

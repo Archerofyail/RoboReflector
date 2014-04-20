@@ -4,7 +4,7 @@ using UnityEngine;
 public class Power : MonoBehaviour
 {
 	public int charges = 6;
-	public UILabel label;
+	private UILabel label;
 
 	protected virtual void Start()
 	{
@@ -15,7 +15,7 @@ public class Power : MonoBehaviour
 
 	protected virtual void OnPress(bool isDown)
 	{
-		if (!isDown && charges > 0)
+		if (!isDown && charges > 0 && !BallManager.IsLaunching)
 		{
 			charges--;
 			label.text = charges.ToString(CultureInfo.InvariantCulture);
