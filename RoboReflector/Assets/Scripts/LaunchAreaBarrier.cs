@@ -34,7 +34,7 @@ public class LaunchAreaBarrier : MonoBehaviour
 			other.gameObject.SetActive(false);
 			var texture = spriteRenderer.sprite.texture;
 			var pixels = texture.GetPixels();
-			var rowsToRemove = Mathf.Clamp(3, 0, (pixels.Length / texture.width) - (rowsRemoved));
+			var rowsToRemove = Mathf.Clamp(10, 0, (pixels.Length / texture.width) - (rowsRemoved));
 			for (int i = texture.width * rowsRemoved; i < ((texture.width * rowsRemoved) + (texture.width * rowsToRemove)); i++)
 			{
 				
@@ -46,6 +46,10 @@ public class LaunchAreaBarrier : MonoBehaviour
 			rowsRemoved = Mathf.Clamp(rowsRemoved, 0, pixels.Length / texture.width);
 			texture.SetPixels(pixels);
 			texture.Apply();
+			if (rowsRemoved == pixels.Length / texture.width)
+			{
+				Destroy(gameObject);
+			}
 		}
 	}
 }

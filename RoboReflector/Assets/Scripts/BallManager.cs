@@ -164,11 +164,14 @@ public class BallManager : MonoBehaviour
 		{
 			if (IsTouching)
 			{
-				ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
-				flickStartPos = Vector2.zero;
-				IsLaunching = false;
-				IsTouching = false;
-				StartCoroutine("UpdateGame");
+				if (Vector2.Distance(pos, flickStartPos) > 1)
+				{
+					ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
+					flickStartPos = Vector2.zero;
+					IsLaunching = false;
+					IsTouching = false;
+					StartCoroutine("UpdateGame");
+				}
 			}
 
 		}
