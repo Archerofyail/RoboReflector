@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class RetryButton : MonoBehaviour 
+public class GameOverMainMenuButton : MonoBehaviour 
 {
 
 	void OnPress(bool isDown)
 	{
 		if (!isDown)
 		{
-			Application.LoadLevel(1);
+			Application.LoadLevel(0);
 		}
 	}
 }

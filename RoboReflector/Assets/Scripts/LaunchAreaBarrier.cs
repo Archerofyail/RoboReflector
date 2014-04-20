@@ -1,28 +1,32 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class LaunchAreaBarrier : MonoBehaviour
 {
 	private SpriteRenderer spriteRenderer;
+	public Transform ball;
 	private int rowsRemoved;
 	void Start()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
-		BallManager.OnBallResetEventHandler += OnBallReset;
+		StartCoroutine("CheckForBall");
 	}
 
-	void OnDestroy()
+	IEnumerator CheckForBall()
 	{
-		BallManager.OnBallResetEventHandler -= OnBallReset;
-	}
-
-	void OnBallReset(int newCount)
-	{
-		if (collider2D)
+		while (true)
 		{
-			collider2D.isTrigger = true;
+			if (ball.position.y < transform.position.y)
+			{
+				gameObject.layer = LayerMask.NameToLayer("Shield_Launching");
+			}
+			else
+			{
+				gameObject.layer = LayerMask.NameToLayer("Shield_Free");
+			}
+			yield return null;
 		}
 	}
-
 	void OnCollisionEnter2D(Collision2D other)
 	{
 		if (other.transform.tag == "Laser")
@@ -42,24 +46,6 @@ public class LaunchAreaBarrier : MonoBehaviour
 			rowsRemoved = Mathf.Clamp(rowsRemoved, 0, pixels.Length / texture.width);
 			texture.SetPixels(pixels);
 			texture.Apply();
-		}
-	}
-
-	void OnTriggerExit2D(Collider2D other)
-	{
-		if (other.tag == "Ball")
-		{
-			collider2D.isTrigger = false;
-			Log.LogMessage("Barrier is now on");
-		}
-		
-	}
-
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.tag == "Laser")
-		{
-			other.gameObject.SetActive(false);
 		}
 	}
 }
