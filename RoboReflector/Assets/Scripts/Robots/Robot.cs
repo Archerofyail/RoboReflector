@@ -28,10 +28,12 @@ public class Robot : MonoBehaviour
 			lasers[i] = (GameObject)Instantiate(laserShot, transform.position, Quaternion.identity);
 			lasers[i].SetActive(false);
 		}
+		healthLabel = GetComponentInChildren<UILabel>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		hitsToTake = Random.Range(minHitsToTake, maxHitsToTake);
 		SetHealth();
 		Invoke("StartFiring", Random.Range(0f, 5f));
+		
 	}
 
 	void OnDestroy()
