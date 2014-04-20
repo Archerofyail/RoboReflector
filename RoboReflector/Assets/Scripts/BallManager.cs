@@ -78,6 +78,11 @@ public class BallManager : MonoBehaviour
 			core.firstExplosion.SetActive(true);
 
 		}
+
+		if (Input.GetKeyDown(KeyCode.D))
+		{
+			PlayerPrefs.SetInt("HasRunTutorial", 0);
+		}
 	}
 
 	public static void ReLaunch()

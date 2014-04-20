@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Tutorial : MonoBehaviour
@@ -20,10 +21,10 @@ public class Tutorial : MonoBehaviour
 			//spriteRenderer.sprite = tutorials[index];
 			tutorials[0].SetActive(true);
 		}
-		if (PlayerPrefs.GetInt("HasTutorialRun") == 1)
-		{
-			Destroy(gameObject);
-		}
+		//if (PlayerPrefs.GetInt("HasTutorialRun") == 1)
+		//{
+		//	Destroy(gameObject);
+		//}
 		PlayerPrefs.SetInt("HasTutorialRun", 1);
 		TouchHandler.OnTouchEndedEventHandler += OnTouchDown;
 	}
@@ -34,10 +35,18 @@ public class Tutorial : MonoBehaviour
 		Time.timeScale = 1;
 	}
 
-	void CheckForNull()
+	IEnumerator CheckForNull()
 	{
-		if (tutorials.All(step => !step))
+		float timer = 0;
+		float start = Time.realtimeSinceStartup;
+		while (timer < 0.1f)
 		{
+			timer += Time.realtimeSinceStartup - start;
+			yield return null;
+		}
+		if (tutorials.All(step => step == null))
+		{
+			print("All tutorials were null");
 			Destroy(gameObject);
 		}
 	}
@@ -51,8 +60,12 @@ public class Tutorial : MonoBehaviour
 		{
 			tutorials[index].SetActive(true);
 		}
-		Invoke("CheckForNull", 0.1f);
-		Destroy(tutorials[index - 1]);
+		if (index < tutorials.Length + 1)
+		{
+			Destroy(tutorials[index - 1]);			
+		}
+		print("Moved to next tutorial");
+		StartCoroutine("CheckForNull");
 	}
 }
 
