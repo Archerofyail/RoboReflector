@@ -5,11 +5,17 @@ public class GameOverFadein : MonoBehaviour
 {
 	public float fadeInMax = 1f;
 	public GameObject menu;
+	public delegate void OnGameOverEvent();
+	public static event OnGameOverEvent OnGameOverEventHandler;
 
 	void Start ()
 	{
 		StartCoroutine("FadeCoverIn");
 		PlayerPrefs.SetInt("HighScore", ScoreManager.Score);
+		if (OnGameOverEventHandler != null)
+		{
+			OnGameOverEventHandler();
+		}
 	}
 
 	IEnumerator FadeCoverIn()
