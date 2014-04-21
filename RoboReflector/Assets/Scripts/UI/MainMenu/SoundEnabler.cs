@@ -18,11 +18,11 @@ public class SoundEnabler : MonoBehaviour
 		if (isChecked)
 		{
 			PlayerPrefs.SetInt("PlayMusic", 1);
-			Debug.Log("Set playmusic to 1");
+			//Debug.Log("Set playmusic to 1");
 		}
 		else
 		{
-			Debug.Log("Set playmusic to 0");
+			//Debug.Log("Set playmusic to 0");
 			PlayerPrefs.SetInt("PlayMusic", 0);
 		}
 	}

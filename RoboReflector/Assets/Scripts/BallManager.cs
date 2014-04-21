@@ -113,7 +113,7 @@ public class BallManager : MonoBehaviour
 					ballNotMovedTime += Time.deltaTime;
 					if (ballNotMovedTime > ballResetAfterStopTime)
 					{
-						Debug.Log("Resetting ball...");
+						//Debug.Log("Resetting ball...");
 						ResetBall();
 					}
 				}

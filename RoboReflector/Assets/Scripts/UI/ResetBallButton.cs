@@ -8,7 +8,7 @@ public class ResetBallButton : MonoBehaviour
 		if (!isDown && !BallManager.IsLaunching)
 		{
 			FindObjectOfType<BallManager>().ResetBall();
-			Debug.Log("Resetting ball...");
+			//Debug.Log("Resetting ball...");
 		}
 	}
 
