@@ -108,7 +108,7 @@ public class TouchHandler : MonoBehaviour
 					}
 					case TouchPhase.Canceled:
 					{
-						Log.LogMessage("Touch cancelled");
+						//Log.LogMessage("Touch cancelled");
 						break;
 					}
 					default:

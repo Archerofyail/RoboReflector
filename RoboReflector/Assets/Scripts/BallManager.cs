@@ -109,7 +109,7 @@ public class BallManager : MonoBehaviour
 			
 				if (ball.rigidbody2D.velocity.magnitude <= 0.2f && !IsLaunching)
 				{
-					Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
+					//Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
 					ballNotMovedTime += Time.deltaTime;
 					if (ballNotMovedTime > ballResetAfterStopTime)
 					{

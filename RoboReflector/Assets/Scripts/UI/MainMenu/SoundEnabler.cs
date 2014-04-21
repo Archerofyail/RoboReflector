@@ -6,7 +6,8 @@ public class SoundEnabler : MonoBehaviour
 
 	void Start()
 	{
-		if (PlayerPrefs.GetInt("PlayMusic") == 0)
+
+		if (PlayerPrefs.GetInt("PlayMusic", 0) == 0)
 		{
 			GetComponent<UICheckbox>().isChecked = false;
 		}
@@ -17,9 +18,11 @@ public class SoundEnabler : MonoBehaviour
 		if (isChecked)
 		{
 			PlayerPrefs.SetInt("PlayMusic", 1);
+			Debug.Log("Set playmusic to 1");
 		}
 		else
 		{
+			Debug.Log("Set playmusic to 0");
 			PlayerPrefs.SetInt("PlayMusic", 0);
 		}
 	}

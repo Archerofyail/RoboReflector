@@ -74,7 +74,7 @@ public class Robot : MonoBehaviour
 			}
 			other.rigidbody.AddForce(other.contacts[0].normal.normalized * 3);
 			Instantiate(explosion, transform.position, Quaternion.identity);
-			Log.LogMessage("Robot Destroyed");
+			//Log.LogMessage("Robot Destroyed");
 			OnDeath();
 			Destroy(gameObject, 0.01f);
 		}

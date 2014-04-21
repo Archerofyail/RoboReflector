@@ -62,6 +62,7 @@ public class EnemyManager : MonoBehaviour
 				Instantiate(roboPrefabs[Random.Range(0, roboPrefabs.Length)],
 					((Vector2)transform.position) + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)), Quaternion.identity));
 			robots[i].explosion = explosion;
+			robots[i].transform.parent = transform;
 		}
 	}
 }
