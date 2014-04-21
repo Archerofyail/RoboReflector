@@ -13,11 +13,12 @@ public class SpeedPower : Power
 
 	protected override void OnPress(bool isDown)
 	{
-		if (!isDown && charges > 0)
+		if (!isDown && charges > 0 && !BallManager.IsLaunching)
 		{
 			ball.velocity += ball.velocity.normalized * 15f;
+			base.OnPress(false);
 		}
-		base.OnPress(isDown);
+		
 	}
 }
 

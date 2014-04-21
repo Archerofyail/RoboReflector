@@ -15,11 +15,9 @@ public class Power : MonoBehaviour
 
 	protected virtual void OnPress(bool isDown)
 	{
-		if (!isDown && charges > 0 && !BallManager.IsLaunching)
-		{
-			charges--;
-			label.text = charges.ToString(CultureInfo.InvariantCulture);
-		}
+
+		charges--;
+		label.text = charges.ToString(CultureInfo.InvariantCulture);
 	}
 
 	public void IncreaseCharges()
