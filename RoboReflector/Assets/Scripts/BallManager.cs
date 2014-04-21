@@ -181,7 +181,7 @@ public class BallManager : MonoBehaviour
 	{
 
 		ballCount--;
-		if (ballCount <= 0)
+		if (ballCount < 0)
 		{
 			gameOverMenu.SetActive(true);
 		}
