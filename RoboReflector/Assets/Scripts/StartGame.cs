@@ -11,7 +11,7 @@ public class StartGame : MonoBehaviour
 
 	#endregion
 
-	private SpriteRenderer spriteRenderer;
+	private UILabel label;
 	public Sprite readySprite;
 	public Sprite goSprite;
 
@@ -21,7 +21,7 @@ public class StartGame : MonoBehaviour
 
 	void Start()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
+		label = GetComponent<UILabel>();
 	}
 
 	void Update()
@@ -32,11 +32,11 @@ public class StartGame : MonoBehaviour
 
 			if (startTimer < readyTimerMax)
 			{
-				spriteRenderer.sprite = readySprite;
+				label.text = "READY?";
 			}
 			else if (startTimer < (readyTimerMax + goTimerMax))
 			{
-				spriteRenderer.sprite = goSprite;
+				label.text = "GO";
 			}
 			else if (startTimer > (readyTimerMax + goTimerMax))
 			{
