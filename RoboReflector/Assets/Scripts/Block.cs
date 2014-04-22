@@ -2,7 +2,7 @@
 
 public class Block : MonoBehaviour
 {
-	private bool isMoving;
+	public bool IsMoving { get; private set; }
 	private SpriteRenderer spriteRenderer;
 	public Sprite brightSprite;
 	public Sprite normalSprite;
@@ -36,13 +36,14 @@ public class Block : MonoBehaviour
 	{
 		if (collider2D.OverlapPoint(pos))
 		{
-			isMoving = true;
+			gameObject.layer = LayerMask.NameToLayer("Block_Moving");
+			IsMoving = true;
 		}
 	}
 
 	void OnTouchMoved(Vector2 pos)
 	{
-		if (isMoving)
+		if (IsMoving)
 		{
 			transform.position = pos;
 		}
@@ -50,8 +51,9 @@ public class Block : MonoBehaviour
 
 	void OnTouchEnd(Vector2 pos)
 	{
-		if (isMoving)
+		if (IsMoving)
 		{
+			gameObject.layer = 1 << 0;
 			Destroy(this);
 		}
 	}

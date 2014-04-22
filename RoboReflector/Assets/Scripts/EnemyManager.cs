@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-	private List<Robot> robots;
-	private List<GameObject> blocks;
+	public static List<Robot> Robots { get; private set; }
+	public static List<Block> Blocks { get; private set; }
 	public Robot[] roboPrefabs;
-	public GameObject block;
+	public Block block;
 	public GameObject explosion;
 	public int minEnemiesPerRound = 6;
 	public int maxEnemiesPerRound = 10;
@@ -17,8 +17,8 @@ public class EnemyManager : MonoBehaviour
 
 	void Start()
 	{
-		robots = new List<Robot>();
-		blocks = new List<GameObject>();
+		Robots = new List<Robot>();
+		Blocks = new List<Block>();
 		StartGame.GameStartEventHandler += FirstStart;
 		
 	}
@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
 	{
 		while (true)
 		{
-			if (robots.All(robot => robot == null) || robots.Count == 0)
+			if (Robots.All(robot => robot == null) || Robots.Count == 0)
 			{
 				SpawnRound();
 				BallManager.IncreaseBallCount();
@@ -44,27 +44,30 @@ public class EnemyManager : MonoBehaviour
 
 	private void SpawnRound()
 	{
-		foreach (var o in blocks)
+		foreach (var o in Blocks)
 		{
 			Destroy(o);
 		}
-		blocks.Clear();
+		Blocks.Clear();
 		var blocksToSpawn = Random.Range(minBlocksPerRound, maxBlocksPerRound);
 		for (int i = 0; i < blocksToSpawn; i++)
 		{
-			blocks.Add((GameObject)Instantiate(block, (Vector2)transform.position + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)), Quaternion.Euler(0, 0, Random.Range(0, 360f))));
+			Blocks.Add(
+				(Block)
+					Instantiate(block, (Vector2) transform.position + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)),
+						Quaternion.Euler(0, 0, Random.Range(0, 360f))));
 		}
 
 		var enemiesToSpawn = Random.Range(minEnemiesPerRound, maxEnemiesPerRound);
 		for (int i = 0; i <= enemiesToSpawn; i++)
 		{
-			robots.Add((Robot)
+			Robots.Add((Robot)
 				Instantiate(roboPrefabs[Random.Range(0, roboPrefabs.Length)],
 					((Vector2)transform.position) + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)), Quaternion.identity));
-			robots[i].explosion = explosion;
-			if (robots[i])
+			Robots[i].explosion = explosion;
+			if (Robots[i])
 			{
-				robots[i].transform.parent = transform;
+				Robots[i].transform.parent = transform;
 			}
 		}
 	}

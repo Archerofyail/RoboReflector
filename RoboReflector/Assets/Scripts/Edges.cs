@@ -9,6 +9,10 @@ public class Edges : MonoBehaviour
 		{
 			other.gameObject.SetActive(false);
 		}
+		if (other.transform.tag == "Ball")
+		{
+			ScoreManager.scoreMultiplier -= 0.5f;
+		}
 	}
 }
 

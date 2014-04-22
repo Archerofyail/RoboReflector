@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class BallManager : MonoBehaviour
@@ -106,17 +107,17 @@ public class BallManager : MonoBehaviour
 	{
 		while (true)
 		{
-			
-				if (ball.rigidbody2D.velocity.magnitude <= 0.2f && !IsLaunching)
+
+			if (ball.rigidbody2D.velocity.magnitude <= 0.2f && !IsLaunching)
+			{
+				//Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
+				ballNotMovedTime += Time.deltaTime;
+				if (ballNotMovedTime > ballResetAfterStopTime)
 				{
-					//Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
-					ballNotMovedTime += Time.deltaTime;
-					if (ballNotMovedTime > ballResetAfterStopTime)
-					{
-						//Debug.Log("Resetting ball...");
-						ResetBall();
-					}
+					//Debug.Log("Resetting ball...");
+					ResetBall();
 				}
+			}
 			yield return null;
 		}
 	}
@@ -160,20 +161,16 @@ public class BallManager : MonoBehaviour
 	}
 	void OnTouchEnd(Vector2 pos)
 	{
-		if (IsLaunching)
+		if (IsLaunching && IsTouching && !EnemyManager.Blocks.Any(block => block.IsMoving))
 		{
-			if (IsTouching)
+			if (Vector2.Distance(pos, flickStartPos) > 1)
 			{
-				if (Vector2.Distance(pos, flickStartPos) > 1)
-				{
-					ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
-					flickStartPos = Vector2.zero;
-					IsLaunching = false;
-					IsTouching = false;
-					StartCoroutine("UpdateGame");
-				}
+				ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
+				flickStartPos = Vector2.zero;
+				IsLaunching = false;
+				IsTouching = false;
+				StartCoroutine("UpdateGame");
 			}
-
 		}
 	}
 
@@ -200,7 +197,7 @@ public class BallManager : MonoBehaviour
 			{
 				OnBallResetEventHandler(ballCount);
 			}
-			
+
 		}
 	}
 }

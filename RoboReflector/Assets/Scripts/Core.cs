@@ -8,6 +8,7 @@ public class Core : MonoBehaviour
 	{
 		if (other.transform.tag == "Laser")
 		{
+			other.gameObject.SetActive(false);
 			if (firstExplosion)
 			{
 				firstExplosion.SetActive(true);

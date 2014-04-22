@@ -6,10 +6,22 @@ public class LaunchAreaBarrier : MonoBehaviour
 	private SpriteRenderer spriteRenderer;
 	public Transform ball;
 	private int rowsRemoved;
+
 	void Start()
 	{
+		BallManager.OnBallResetEventHandler += OnBallReset;
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		StartCoroutine("CheckForBall");
+	}
+
+	void OnDestroy()
+	{
+		BallManager.OnBallResetEventHandler -= OnBallReset;
+	}
+
+	void OnBallReset(int newCount)
+	{
+		gameObject.layer = LayerMask.NameToLayer("Shield_Launching");
 	}
 
 	IEnumerator CheckForBall()
