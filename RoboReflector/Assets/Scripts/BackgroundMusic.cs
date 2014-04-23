@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class BackgroundMusic : MonoBehaviour
 {
-	public AudioClip[] files;
+	public string[] fileNames;
 	void Start ()
 	{
 		if (PlayerPrefs.GetInt("PlayMusic") == 1)
 		{
-			audio.clip = files[Random.Range(0, files.Length)];
+			audio.clip = Resources.Load<AudioClip>("Sound/" + fileNames[Random.Range(0, 4)]);
 			audio.Play();
 		}
 		GameOverFadein.OnGameOverEventHandler += StartFade;
