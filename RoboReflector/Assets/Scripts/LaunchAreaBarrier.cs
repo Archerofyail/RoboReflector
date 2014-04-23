@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class LaunchAreaBarrier : MonoBehaviour
 {
-	private SpriteRenderer spriteRenderer;
 	public Transform ball;
-	private int rowsRemoved;
+	private int rowsToRemove;
+	private float maxScale;
+	public float scaleRecharge = 0.001f;
 
 	void Start()
 	{
 		BallManager.OnBallResetEventHandler += OnBallReset;
-		spriteRenderer = GetComponent<SpriteRenderer>();
+		maxScale = transform.localScale.y;
 		StartCoroutine("CheckForBall");
+		StartCoroutine("ShieldPowerChanger");
 	}
 
 	void OnDestroy()
@@ -28,14 +30,7 @@ public class LaunchAreaBarrier : MonoBehaviour
 	{
 		while (true)
 		{
-			if (ball.position.y < transform.position.y)
-			{
-				gameObject.layer = LayerMask.NameToLayer("Shield_Launching");
-			}
-			else
-			{
-				gameObject.layer = LayerMask.NameToLayer("Shield_Free");
-			}
+			gameObject.layer = LayerMask.NameToLayer(ball.position.y < transform.position.y ? "Shield_Launching" : "Shield_Free");
 			yield return null;
 		}
 	}
@@ -44,25 +39,24 @@ public class LaunchAreaBarrier : MonoBehaviour
 		if (other.transform.tag == "Laser")
 		{
 			other.gameObject.SetActive(false);
-			var texture = spriteRenderer.sprite.texture;
-			var pixels = texture.GetPixels();
-			var rowsToRemove = Mathf.Clamp(10, 0, (pixels.Length / texture.width) - (rowsRemoved));
-			for (int i = texture.width * rowsRemoved; i < ((texture.width * rowsRemoved) + (texture.width * rowsToRemove)); i++)
-			{
-				
-				var color = pixels[i];
-				pixels[i] = new Color(color.r, color.g, color.b, 0);
-				
-			}
-			rowsRemoved += rowsToRemove;
-			rowsRemoved = Mathf.Clamp(rowsRemoved, 0, pixels.Length / texture.width);
-			texture.SetPixels(pixels);
-			texture.Apply();
-			if (rowsRemoved == pixels.Length / texture.width)
-			{
-				Destroy(gameObject);
-			}
+			rowsToRemove += 3;
 		}
+	}
+
+	IEnumerator ShieldPowerChanger()
+	{
+		while (transform.localScale.y > 0.000001f)
+		{
+			transform.localScale += new Vector3(0, scaleRecharge, 0);
+			if (rowsToRemove > 0)
+			{
+				transform.localScale -= new Vector3(0,0.005f,0);
+				rowsToRemove--;
+			}
+			transform.localScale = new Vector3(transform.localScale.x, Mathf.Clamp(transform.localScale.y, 0, maxScale), transform.localScale.z);
+			yield return null;
+		}
+		Destroy(gameObject);
 	}
 }
 

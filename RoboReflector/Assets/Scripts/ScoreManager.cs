@@ -3,7 +3,23 @@
 public class ScoreManager : MonoBehaviour
 {
 	public static int Score { get; set; }
-	public static float scoreMultiplier;
+	private static float scoreMultiplier;
+	public static float ScoreMultiplier
+	{
+		get
+		{
+			return scoreMultiplier;
+		}
+		set
+		{
+
+			scoreMultiplier = Mathf.Clamp(value, 1, 150f);
+			if (MultiplierUpdateEventHandler != null)
+			{
+				MultiplierUpdateEventHandler(scoreMultiplier);
+			}
+		}
+	}
 	public delegate void ScoreUpdateEvent(int newScore);
 
 	public static event ScoreUpdateEvent ScoreUpdateEventHandler;
@@ -26,12 +42,8 @@ public class ScoreManager : MonoBehaviour
 	public static void IncreaseScore(int score)
 	{
 		//Log.LogMessage("Increased score by " + (score * scoreMultiplier));
-		Score += (int)(score * scoreMultiplier);
-		scoreMultiplier += 0.5f;
-		if (MultiplierUpdateEventHandler != null)
-		{
-			MultiplierUpdateEventHandler(scoreMultiplier);
-		}
+		Score += Mathf.Clamp((int)(score * ScoreMultiplier), 0, 10000000);
+		ScoreMultiplier += 0.5f;
 		if (ScoreUpdateEventHandler != null)
 		{
 			ScoreUpdateEventHandler(Score);
@@ -41,10 +53,10 @@ public class ScoreManager : MonoBehaviour
 	void OnBallReset(int count)
 	{
 		//Log.LogMessage("multiplier reset");
-		scoreMultiplier = Mathf.Clamp(scoreMultiplier / 4, 1, 500);
+		ScoreMultiplier = Mathf.Clamp(ScoreMultiplier / 4, 1, 500);
 		if (MultiplierUpdateEventHandler != null)
 		{
-			MultiplierUpdateEventHandler(scoreMultiplier);
+			MultiplierUpdateEventHandler(ScoreMultiplier);
 		}
 	}
 }

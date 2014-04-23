@@ -11,7 +11,7 @@ public class Edges : MonoBehaviour
 		}
 		if (other.transform.tag == "Ball")
 		{
-			ScoreManager.scoreMultiplier -= 0.5f;
+			ScoreManager.ScoreMultiplier -= 0.5f;
 		}
 	}
 }

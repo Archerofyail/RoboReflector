@@ -34,7 +34,7 @@ public class Block : MonoBehaviour
 
 	void OnTouchDown(Vector2 pos)
 	{
-		if (collider2D.OverlapPoint(pos))
+		if (collider2D.OverlapPoint(pos) && !BallManager.IsLaunching)
 		{
 			gameObject.layer = LayerMask.NameToLayer("Block_Moving");
 			IsMoving = true;

@@ -1,34 +1,33 @@
 ﻿using UnityEngine;
 
-public class SoundEnabler : MonoBehaviour 
+public class SoundEnabler : MonoBehaviour
 {
 
-
+	private bool isFirst;
 	void Start()
 	{
 		if (PlayerPrefs.GetInt("IsFirstRun") == 0)
 		{
 			PlayerPrefs.SetInt("IsFirstRun", 1);
 			PlayerPrefs.SetInt("PlayMusic", 1);
+
 		}
-		if (PlayerPrefs.GetInt("PlayMusic", 0) == 0)
-		{
-			GetComponent<UICheckbox>().isChecked = false;
-		}
+		Invoke("IsMusicEnabled", 0.01f);
+	}
+
+	void IsMusicEnabled()
+	{
+		GetComponent<UICheckbox>().isChecked = PlayerPrefs.GetInt("PlayMusic", 0) != 0;
 	}
 
 	void OnActivate(bool isChecked)
 	{
-		if (isChecked)
+		
+		if (isFirst)
 		{
-			PlayerPrefs.SetInt("PlayMusic", 1);
-			//Debug.Log("Set playmusic to 1");
+			PlayerPrefs.SetInt("PlayMusic", isChecked ? 1 : 0);
 		}
-		else
-		{
-			//Debug.Log("Set playmusic to 0");
-			PlayerPrefs.SetInt("PlayMusic", 0);
-		}
+		isFirst = true;
 	}
 }
 
