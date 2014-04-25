@@ -53,6 +53,7 @@ public class Block : MonoBehaviour
 	{
 		if (IsMoving)
 		{
+			IsMoving = false;
 			gameObject.layer = 1 << 0;
 			Destroy(this);
 		}
