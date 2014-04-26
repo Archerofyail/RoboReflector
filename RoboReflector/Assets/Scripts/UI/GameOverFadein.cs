@@ -11,7 +11,10 @@ public class GameOverFadein : MonoBehaviour
 	void Start ()
 	{
 		StartCoroutine("FadeCoverIn");
-		PlayerPrefs.SetInt("HighScore", ScoreManager.Score);
+		if (ScoreManager.Score > PlayerPrefs.GetInt("HighScore"))
+		{
+			PlayerPrefs.SetInt("HighScore", ScoreManager.Score);
+		}
 		if (OnGameOverEventHandler != null)
 		{
 			OnGameOverEventHandler();
