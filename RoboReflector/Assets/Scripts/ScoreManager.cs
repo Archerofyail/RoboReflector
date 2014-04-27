@@ -30,6 +30,7 @@ public class ScoreManager : MonoBehaviour
 
 	void Start()
 	{
+		Score = 0;
 		BallManager.OnBallResetEventHandler += OnBallReset;
 		//Log.LogMessage("Score manager Subscribed to BallReset");
 	}

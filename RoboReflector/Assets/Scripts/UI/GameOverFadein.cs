@@ -15,6 +15,7 @@ public class GameOverFadein : MonoBehaviour
 		{
 			PlayerPrefs.SetInt("HighScore", ScoreManager.Score);
 		}
+
 		if (OnGameOverEventHandler != null)
 		{
 			OnGameOverEventHandler();
