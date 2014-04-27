@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -27,13 +26,22 @@ public class EnemyManager : MonoBehaviour
 	{
 		while (true)
 		{
-			if (Robots.All(robot => robot == null) || Robots.Count == 0)
+			if (Robots.Count == 0)
 			{
 				SpawnRound();
 				BallManager.IncreaseBallCount();
 			}
 			yield return new WaitForSeconds(0.1f);
 		}
+	}
+
+	/// <summary>
+	/// To be called when a robot gets destroyed
+	/// </summary>
+	/// <param name="robot">The robot being destroyed</param>
+	public static void RemoveRobot(Robot robot)
+	{
+		Robots.Remove(robot);
 	}
 
 	void FirstStart()
@@ -46,7 +54,7 @@ public class EnemyManager : MonoBehaviour
 	{
 		foreach (var o in Blocks)
 		{
-			Destroy(o);
+			Destroy(o.gameObject);
 		}
 		Blocks.Clear();
 		var blocksToSpawn = Random.Range(minBlocksPerRound, maxBlocksPerRound);
@@ -63,7 +71,7 @@ public class EnemyManager : MonoBehaviour
 		{
 			Robots.Add((Robot)
 				Instantiate(roboPrefabs[Random.Range(0, roboPrefabs.Length)],
-					((Vector2)transform.position) + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)), Quaternion.identity));
+					((Vector2)transform.position) + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-4f, 6f)), Quaternion.identity));
 			Robots[i].explosion = explosion;
 			if (Robots[i])
 			{

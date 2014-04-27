@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class TouchHandler : MonoBehaviour
@@ -21,52 +22,56 @@ public class TouchHandler : MonoBehaviour
 
 	void Start()
 	{
-
+		StartCoroutine(Input.mousePresent ? UpdateMouse() : UpdateTouch());
 	}
 
-	void Update()
+	IEnumerator UpdateMouse()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		while (true)
 		{
-			Application.Quit();
-		}
-		if (Input.mousePresent)
-		{
-			if (Input.GetMouseButtonDown(0))
+			if (Input.mousePresent)
 			{
-				if (OnTouchStartedEventHandler != null)
+				if (Input.GetMouseButtonDown(0))
 				{
-					OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-				}
-			}
-			if (Input.GetMouseButton(0))
-			{
-				Vector2 currentPos = camera.ScreenToWorldPoint(Input.mousePosition);
-				if (lastMousePos != currentPos)
-				{
-					if (OnTouchMovedEventHandler != null)
+					if (OnTouchStartedEventHandler != null)
 					{
-						OnTouchMovedEventHandler(currentPos);
+						OnTouchStartedEventHandler(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 					}
 				}
-				else
+				if (Input.GetMouseButton(0))
 				{
-					if (OnTouchStationaryEventHandler != null)
+					Vector2 currentPos = camera.ScreenToWorldPoint(Input.mousePosition);
+					if (lastMousePos != currentPos)
 					{
-						OnTouchStationaryEventHandler(currentPos);
+						if (OnTouchMovedEventHandler != null)
+						{
+							OnTouchMovedEventHandler(currentPos);
+						}
+					}
+					else
+					{
+						if (OnTouchStationaryEventHandler != null)
+						{
+							OnTouchStationaryEventHandler(currentPos);
+						}
+					}
+					lastMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				}
+				if (Input.GetMouseButtonUp(0))
+				{
+					if (OnTouchEndedEventHandler != null)
+					{
+						OnTouchEndedEventHandler(camera.ScreenToWorldPoint(Input.mousePosition));
 					}
 				}
-				lastMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			}
-			if (Input.GetMouseButtonUp(0))
-			{
-				if (OnTouchEndedEventHandler != null)
-				{
-					OnTouchEndedEventHandler(camera.ScreenToWorldPoint(Input.mousePosition));
-				}
-			}
+			yield return null;
 		}
-		else
+	}
+
+	IEnumerator UpdateTouch()
+	{
+		while (true)
 		{
 			if (Input.touchCount > 0)
 			{
@@ -115,6 +120,7 @@ public class TouchHandler : MonoBehaviour
 						throw new ArgumentOutOfRangeException();
 				}
 			}
+			yield return null;
 		}
 	}
 }

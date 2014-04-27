@@ -31,7 +31,7 @@ public class LaunchAreaBarrier : MonoBehaviour
 		while (true)
 		{
 			gameObject.layer = LayerMask.NameToLayer(ball.position.y < transform.position.y ? "Shield_Launching" : "Shield_Free");
-			yield return null;
+			yield return new WaitForSeconds(0.2f);
 		}
 	}
 	void OnCollisionEnter2D(Collision2D other)

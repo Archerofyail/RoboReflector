@@ -8,32 +8,33 @@ public class Robot : MonoBehaviour
 	public int minHitsToTake = 1;
 	public int maxHitsToTake = 4;
 	public int scoreWorth = 200;
-	
+
 	public GameObject explosion;
 	public GameObject laserShot;
-	public float shotCheckFrequency = 4f;
+	public float minShotCheckFrequency = 2f;
+	public float maxShotCheckFrequency = 6f;
+	public float shotCheckFrequency;
 	public int objectsInPool = 4;
 	protected int hitsToTake;
-	protected SpriteRenderer spriteRenderer;
 	private readonly Vector2 relativeLaunchPos = new Vector2(0.35f, -0.44f);
-	public UILabel healthLabel;
+	[SerializeField]
+	private UILabel healthLabel;
 
 	private GameObject[] lasers;
 
 	void Start()
 	{
+		shotCheckFrequency = Random.Range(minShotCheckFrequency, maxShotCheckFrequency);
 		lasers = new GameObject[objectsInPool];
 		for (int i = 0; i < lasers.Length; i++)
 		{
 			lasers[i] = (GameObject)Instantiate(laserShot, transform.position, Quaternion.identity);
 			lasers[i].SetActive(false);
 		}
-		healthLabel = GetComponentInChildren<UILabel>();
-		spriteRenderer = GetComponent<SpriteRenderer>();
 		hitsToTake = Random.Range(minHitsToTake, maxHitsToTake);
 		SetHealth();
 		Invoke("StartFiring", Random.Range(0f, 5f));
-		
+
 	}
 
 	void OnDestroy()
@@ -43,6 +44,7 @@ public class Robot : MonoBehaviour
 			Destroy(laser);
 		}
 		BallManager.OnBallResetEventHandler -= OnBallReset;
+		EnemyManager.RemoveRobot(this);
 	}
 
 	void OnBallReset(int newCount)
@@ -85,7 +87,7 @@ public class Robot : MonoBehaviour
 		CamShake.intensity += 0.2f;
 	}
 
-	protected virtual void OnDeath(){}
+	protected virtual void OnDeath() { }
 
 	void StartFiring()
 	{
@@ -94,28 +96,23 @@ public class Robot : MonoBehaviour
 
 	IEnumerator FireBullet()
 	{
-		float timer = 0;
 		while (true)
 		{
 			if (!BallManager.IsLaunching)
 			{
-				timer += Time.deltaTime;
-				if (((int) timer) % ((int) shotCheckFrequency) == 0)
+				if (Random.Range(0, 101) <= 25)
 				{
-					if (Random.Range(0, 101) <= 1)
+					var activeLaser = lasers.FirstOrDefault(laser => !laser.activeSelf);
+					if (activeLaser)
 					{
-						var activeLaser = lasers.FirstOrDefault(laser => !laser.activeSelf);
-						if (activeLaser)
-						{
-							activeLaser.SetActive(true);
-							activeLaser.transform.position = transform.TransformPoint(relativeLaunchPos);
-							activeLaser.transform.rotation = Quaternion.identity;
-							activeLaser.rigidbody2D.AddForce(-Vector2.up * 150);
-						}
+						activeLaser.SetActive(true);
+						activeLaser.transform.position = transform.TransformPoint(relativeLaunchPos);
+						activeLaser.transform.rotation = Quaternion.identity;
+						activeLaser.rigidbody2D.AddForce(-Vector2.up * 150);
 					}
 				}
 			}
-			yield return null;
+			yield return new WaitForSeconds(shotCheckFrequency);
 		}
 	}
 

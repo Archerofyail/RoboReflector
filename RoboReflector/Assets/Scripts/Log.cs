@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-//public class Log : MonoBehaviour
+﻿//public class Log : MonoBehaviour
 //{
 //	private static Queue<string> messageQueue = new Queue<string>();
 //	void OnGUI()

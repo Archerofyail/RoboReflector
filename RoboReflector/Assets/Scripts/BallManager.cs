@@ -66,20 +66,6 @@ public class BallManager : MonoBehaviour
 		}
 	}
 
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.F))
-		{
-			gameOverMenu.SetActive(true);
-		}
-		if (Input.GetKeyDown(KeyCode.C))
-		{
-			var core = GameObject.Find("Core").GetComponent<Core>();
-			core.GameOver();
-			core.firstExplosion.SetActive(true);
-		}
-	}
-
 	public static void ReLaunch()
 	{
 		IsLaunching = true;
@@ -108,7 +94,7 @@ public class BallManager : MonoBehaviour
 		while (true)
 		{
 
-			if (ball.rigidbody2D.velocity.magnitude <= 0.2f && !IsLaunching)
+			if (ball.rigidbody2D.velocity.sqrMagnitude <= 0.05f && !IsLaunching)
 			{
 				//Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
 				ballNotMovedTime += Time.deltaTime;
