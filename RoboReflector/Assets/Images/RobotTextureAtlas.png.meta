@@ -1,6 +1,11 @@
 fileFormatVersion: 2
 guid: 95895f6a9e6d68d41a29f411145f11dc
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: RobotTextureAtlas_0
+    21300002: RobotTextureAtlas_1
+    21300004: RobotTextureAtlas_2
+    21300006: RobotTextureAtlas_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -16,7 +21,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: .25
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
@@ -35,6 +40,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 25
   alphaIsTransparency: 1
   textureType: 8
@@ -54,6 +60,7 @@ TextureImporter:
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: RobotTextureAtlas_1
       rect:
         serializedVersion: 2
@@ -63,6 +70,7 @@ TextureImporter:
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: RobotTextureAtlas_2
       rect:
         serializedVersion: 2
@@ -72,6 +80,7 @@ TextureImporter:
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: RobotTextureAtlas_3
       rect:
         serializedVersion: 2
@@ -81,5 +90,6 @@ TextureImporter:
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
