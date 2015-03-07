@@ -70,7 +70,7 @@ public class BallManager : MonoBehaviour
 	{
 		IsLaunching = true;
 		ballManager.StopCoroutine("UpdateGame");
-		ballManager.ball.rigidbody2D.velocity = Vector2.zero;
+		ballManager.ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 	}
 
 	public static void IncreaseBallCount()
@@ -94,7 +94,7 @@ public class BallManager : MonoBehaviour
 		while (true)
 		{
 
-			if (ball.rigidbody2D.velocity.sqrMagnitude <= 0.05f && !IsLaunching)
+			if (ball.GetComponent<Rigidbody2D>().velocity.sqrMagnitude <= 0.05f && !IsLaunching)
 			{
 				//Log.LogMessage("Ball not moving, resetting in " + (ballResetAfterStopTime - ballNotMovedTime) + " seconds");
 				ballNotMovedTime += Time.deltaTime;
@@ -151,7 +151,7 @@ public class BallManager : MonoBehaviour
 		{
 			if (Vector2.Distance(pos, flickStartPos) > 1)
 			{
-				ball.rigidbody2D.AddForce((pos - flickStartPos) * 300);
+				ball.GetComponent<Rigidbody2D>().AddForce((pos - flickStartPos) * 300);
 				flickStartPos = Vector2.zero;
 				IsLaunching = false;
 				IsTouching = false;
@@ -172,7 +172,7 @@ public class BallManager : MonoBehaviour
 		{
 			StopCoroutine("UpdateGame");
 			ball.transform.position = ballStartPos.position;
-			ball.rigidbody2D.velocity = Vector2.zero;
+			ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			ballNotMovedTime = 0f;
 			IsLaunching = true;
 			if (OnBallCountUpdatedEventHandler != null)

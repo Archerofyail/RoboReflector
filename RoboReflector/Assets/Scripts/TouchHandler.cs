@@ -40,7 +40,7 @@ public class TouchHandler : MonoBehaviour
 				}
 				if (Input.GetMouseButton(0))
 				{
-					Vector2 currentPos = camera.ScreenToWorldPoint(Input.mousePosition);
+					Vector2 currentPos = GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
 					if (lastMousePos != currentPos)
 					{
 						if (OnTouchMovedEventHandler != null)
@@ -61,7 +61,7 @@ public class TouchHandler : MonoBehaviour
 				{
 					if (OnTouchEndedEventHandler != null)
 					{
-						OnTouchEndedEventHandler(camera.ScreenToWorldPoint(Input.mousePosition));
+						OnTouchEndedEventHandler(GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
 					}
 				}
 			}

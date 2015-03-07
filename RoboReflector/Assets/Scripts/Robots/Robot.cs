@@ -19,11 +19,15 @@ public class Robot : MonoBehaviour
 	private readonly Vector2 relativeLaunchPos = new Vector2(0.35f, -0.44f);
 	[SerializeField]
 	private UILabel healthLabel;
+	private SpriteRenderer sprite;
 
 	private GameObject[] lasers;
 
 	void Start()
 	{
+		sprite = GetComponent<SpriteRenderer>();
+		sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0);
+		StartCoroutine(FadeInSprite());
 		shotCheckFrequency = Random.Range(minShotCheckFrequency, maxShotCheckFrequency);
 		lasers = new GameObject[objectsInPool];
 		for (int i = 0; i < lasers.Length; i++)
@@ -94,6 +98,24 @@ public class Robot : MonoBehaviour
 		StartCoroutine("FireBullet");
 	}
 
+	IEnumerator FadeInSprite()
+	{
+		var spriteColor = sprite.color;
+		float timer = 0.2f;
+		var alphaVal = 0f;
+		var startPos = transform.position;
+		while (timer > 0)
+		{
+
+			timer -= Time.deltaTime;
+			timer = Mathf.Clamp01(timer);
+			sprite.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b,
+				Mathf.Lerp(0, 1, Mathf.InverseLerp(0.2f, 0, timer)));
+			transform.position = startPos + (new Vector3(0, Mathf.Lerp(0.7f, 0, Mathf.InverseLerp(0.2f, 0, timer))));
+			yield return null;
+		}
+	}
+
 	IEnumerator FireBullet()
 	{
 		while (true)
@@ -108,7 +130,7 @@ public class Robot : MonoBehaviour
 						activeLaser.SetActive(true);
 						activeLaser.transform.position = transform.TransformPoint(relativeLaunchPos);
 						activeLaser.transform.rotation = Quaternion.identity;
-						activeLaser.rigidbody2D.AddForce(-Vector2.up * 150);
+						activeLaser.GetComponent<Rigidbody2D>().AddForce(-Vector2.up * 150);
 					}
 				}
 			}

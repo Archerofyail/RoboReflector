@@ -10,17 +10,17 @@ public class Block : MonoBehaviour
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 
-		TouchHandler.OnTouchStartedEventHandler += OnTouchDown;
-		TouchHandler.OnTouchMovedEventHandler += OnTouchMoved;
-		TouchHandler.OnTouchEndedEventHandler += OnTouchEnd;
+		//TouchHandler.OnTouchStartedEventHandler += OnTouchDown;
+		//TouchHandler.OnTouchMovedEventHandler += OnTouchMoved;
+		//TouchHandler.OnTouchEndedEventHandler += OnTouchEnd;
 	}
 
 	void OnDestroy()
 	{
 		spriteRenderer.sprite = normalSprite;
-		TouchHandler.OnTouchStartedEventHandler -= OnTouchDown;
-		TouchHandler.OnTouchMovedEventHandler -= OnTouchMoved;
-		TouchHandler.OnTouchEndedEventHandler -= OnTouchEnd;
+		//TouchHandler.OnTouchStartedEventHandler -= OnTouchDown;
+		//TouchHandler.OnTouchMovedEventHandler -= OnTouchMoved;
+		//TouchHandler.OnTouchEndedEventHandler -= OnTouchEnd;
 	}
 
 
@@ -32,32 +32,32 @@ public class Block : MonoBehaviour
 		}
 	}
 
-	void OnTouchDown(Vector2 pos)
-	{
-		if (collider2D.OverlapPoint(pos) && !BallManager.IsLaunching)
-		{
-			gameObject.layer = LayerMask.NameToLayer("Block_Moving");
-			IsMoving = true;
-		}
-	}
+	//void OnTouchDown(Vector2 pos)
+	//{
+	//	if (GetComponent<Collider2D>().OverlapPoint(pos) && !BallManager.IsLaunching)
+	//	{
+	//		gameObject.layer = LayerMask.NameToLayer("Block_Moving");
+	//		IsMoving = true;
+	//	}
+	//}
 
-	void OnTouchMoved(Vector2 pos)
-	{
-		if (IsMoving)
-		{
-			transform.position = pos;
-		}
-	}
+	//void OnTouchMoved(Vector2 pos)
+	//{
+	//	if (IsMoving)
+	//	{
+	//		transform.position = pos;
+	//	}
+	//}
 
-	void OnTouchEnd(Vector2 pos)
-	{
-		if (IsMoving)
-		{
-			IsMoving = false;
-			gameObject.layer = 1 << 0;
-			Destroy(this);
-		}
-	}
+	//void OnTouchEnd(Vector2 pos)
+	//{
+	//	if (IsMoving)
+	//	{
+	//		IsMoving = false;
+	//		gameObject.layer = 1 << 0;
+	//		Destroy(this);
+	//	}
+	//}
 
 }
 

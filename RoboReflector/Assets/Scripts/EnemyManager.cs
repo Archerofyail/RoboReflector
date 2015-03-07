@@ -62,7 +62,7 @@ public class EnemyManager : MonoBehaviour
 		{
 			Blocks.Add(
 				(Block)
-					Instantiate(block, (Vector2) transform.position + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-6f, 6f)),
+					Instantiate(block, (Vector2) transform.position + new Vector2(Random.Range(-4.1f, 4.1f), Random.Range(-3.8f, 6f)),
 						Quaternion.Euler(0, 0, Random.Range(0, 360f))));
 		}
 
@@ -71,7 +71,7 @@ public class EnemyManager : MonoBehaviour
 		{
 			Robots.Add((Robot)
 				Instantiate(roboPrefabs[Random.Range(0, roboPrefabs.Length)],
-					((Vector2)transform.position) + new Vector2(Random.Range(-4.5f, 4.5f), Random.Range(-4f, 6f)), Quaternion.identity));
+					((Vector2)transform.position) + new Vector2(Random.Range(-4.1f, 4.1f), Random.Range(-3.6f, 5.5f)), Quaternion.identity));
 			Robots[i].explosion = explosion;
 			if (Robots[i])
 			{

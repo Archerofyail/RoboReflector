@@ -7,7 +7,7 @@ public class SpeedPower : Power
 
 	protected override void Start()
 	{
-		ball = FindObjectOfType<Ball>().rigidbody2D;
+		ball = FindObjectOfType<Ball>().GetComponent<Rigidbody2D>();
 		base.Start();
 	}
 
