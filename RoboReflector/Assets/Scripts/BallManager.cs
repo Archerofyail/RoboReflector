@@ -89,6 +89,19 @@ public class BallManager : MonoBehaviour
 		StartGame.GameStartEventHandler -= GameStart;
 	}
 
+	IEnumerator ResetBallPos()
+	{
+		ball.GetComponent<Collider2D>().enabled = false;
+		var posDiff = new Vector2(ball.transform.position.x - ballStartPos.position.x, ball.transform.position.y - ballStartPos.position.y);
+		while (Mathf.Abs(posDiff.x) > 0.01f && Mathf.Abs(posDiff.y) > 0.01f)
+		{
+			ball.transform.position = Vector3.Lerp(ball.transform.position, ballStartPos.position, 0.1f);
+			posDiff = new Vector2(ball.transform.position.x - ballStartPos.position.x, ball.transform.position.y - ballStartPos.position.y);
+			yield return null;
+		}
+		ball.GetComponent<Collider2D>().enabled = true;
+	}
+
 	IEnumerator UpdateGame()
 	{
 		while (true)
@@ -171,7 +184,7 @@ public class BallManager : MonoBehaviour
 		else
 		{
 			StopCoroutine("UpdateGame");
-			ball.transform.position = ballStartPos.position;
+			StartCoroutine(ResetBallPos());
 			ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			ballNotMovedTime = 0f;
 			IsLaunching = true;
