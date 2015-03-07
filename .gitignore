@@ -12,7 +12,8 @@
 /*.pidb
 /*.booproj
 *.csproj
-RoboReflector/Build/
+RoboReflector/Builds/
 *.sln
 *.suo
 Thumbs.db
+SourceFiles/ScreenShots/

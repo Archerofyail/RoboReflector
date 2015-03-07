@@ -8,7 +8,7 @@ public class QuitButton : MonoBehaviour
 		if (!isDown)
 		{
 			Time.timeScale = 1;
-			Application.LoadLevel(0);
+			Application.LoadLevel("MainMenu");
 		}
 	}
 }
